@@ -1,0 +1,130 @@
+/* d8dfe8 */
+* {
+    list-style-type: none;
+    text-decoration: none;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Playfair Display', serif;
+}
+nav {
+  display: flex;
+  justify-content: space-between; 
+  align-items: baseline;
+  border-bottom:0.1rem solid #e2e6e1;
+   
+}
+
+.sidebar {
+    height: 100%;
+    width: 0;
+    position: fixed;
+    z-index: 1;
+    top: 81px;
+    left: 0;
+    background-color: #2b343d;
+    overflow-x: hidden;
+    transition: 0.5s;
+    padding-top: 60px;
+  }
+  .sidebar .closebtn {
+    position: absolute;
+    color: #0694df;
+    top: 0;
+    right: 25px;
+    font-size: 36px;
+    margin-left: 50px;
+  }
+  .openbtn {
+    font-size: 16px;
+    font-family: 'Saira Extra Condensed', sans-serif;
+    cursor: pointer;
+    background-color: #fff;
+    color: #899685;
+    border: 0.1rem solid #899685;
+    padding: 8px 15px;
+    border: none;
+  }
+  
+  .openbtn:hover {
+    background-color: rgb(162, 169, 185);
+    cursor: pointer;
+    color: #fff;
+  }
+  
+  #main {
+    transition: margin-left .5s;
+    padding: 16px;
+    background-color: #e6e9f0;
+    width: 100%;
+  }
+  
+  /* On smaller screens, where height is less than 450px, change the style of the sidenav (less padding and a smaller font size) */
+  @media screen and (max-height: 450px) {
+    .sidebar {padding-top: 15px;}
+    .sidebar a {font-size: 18px;}
+  }
+  /* #####my style */
+  /* nav styling */
+  #logo {
+    font-size: 32px;
+    font-family: 'Satisfy', cursive;
+    color: #00487C;
+    padding: 16px;
+    margin-left: 16px;
+  }
+  .navMenu {
+    padding: 8px;
+  }
+  #menu1 {
+    display: none;
+    color: #fff;
+    background-color: #F17105;
+    font-size: 16px;
+    padding: 10px;
+    margin-right: 16px;
+    font-family: 'Barlow Condensed', sans-serif;
+  }
+  #menu2 {
+    display: none;
+    color: #fff;
+    background-color: #d11149;
+    font-size: 16px;
+    padding: 10px;
+    margin-right: 16px;
+    font-family: 'Barlow Condensed', sans-serif;
+  }
+  #avatar {
+    color: #fff;
+    display: inline-block;
+    background-color: #d11149;
+    font-size: 12px;
+    padding: 8px;
+    text-align: center;
+    margin-right: 16px;
+    width: 30px;
+    border-radius: 50%;
+   
+    font-family: 'Barlow Condensed', sans-serif;
+  }
+  /* End of nav styling */
+  .menuLink {
+    display: block;
+    width: 100%;
+    font-size: 12px;
+    color: #c4d0df;
+    padding: 8px 0px 8px 0px;
+    padding-left: 8px;
+  }
+  .menuLink i {
+    color: #0694df;
+    margin-right: 12px;
+    margin-left: 16px;
+    /* padding: 16px; */
+  }
+  .menuLink:hover{
+    cursor: pointer;
+    color: #f1f2f2;
+    background-color: #212832;
+    border-left:  solid 4px #0694df;
+  }

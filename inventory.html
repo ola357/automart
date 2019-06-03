@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="css/carDetails.css">
+    <link rel="stylesheet" href="css/inventory.css">
+    <title>Inventory</title>
+</head>
+
+<body>
+    <nav>
+        <div class="navigation">
+            <h3 class="logo">AutoMart</h3>
+            <div class="menuControl">
+                <i class="close material-icons">close</i>
+            </div>
+        </div>
+        <ul class="menu">
+            <li><a href="">Sign up</a></li>
+            <li><a href="">Sign in</a></li>
+        </ul>
+    </nav>
+    <button class="filter"><i class="material-icons">filter_list</i>Filter</button>
+    <aside id="myNav" class="overlay">
+        <!-- Button to close the overlay navigation -->
+        <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+        <div class="overlay-content">
+            <form action="">
+                <div class="condition">
+                    <p>New/Used</p>
+                    <input type="radio" name="condition" value="all" checked> <span>All</span>
+                    <input type="radio" name="condition" value="new"> <span>New</span>
+                    <input type="radio" name="condition" value="used"> <span>Used</span>
+                </div>
+                <div class="year">
+                    <p>Year</p>
+                    <div>
+                        <span>Min</span>
+                        <select name="minYear">
+                            <option value="volvo">Volvo</option>
+                            <option value="saab">Saab</option>
+                            <option value="fiat">Fiat</option>
+                            <option value="audi">Audi</option>
+                        </select>
+                    </div>
+                    <div>
+                        <span>Max</span>
+                        <select name="maxYear">
+                            <option value="volvo">Volvo</option>
+                            <option value="saab">Saab</option>
+                            <option value="fiat">Fiat</option>
+                            <option value="audi">Audi</option>
+                        </select>
+                    </div>
+
+                </div>
+                <div class="make">
+                    <p>Make</p>
+                    <input type="checkbox" name="toyota" id="" value="toyota">
+                    <input type="checkbox" name="bmw" id="" value="bmw">
+                    <input type="checkbox" name="mercedes" id="" value="mercedes">
+                    <input type="checkbox" name="porshe" id="" value="porshe">
+                    <input type="checkbox" name="honda" id="" value="honda">
+                </div>
+                <div class="model">
+                    <p>Make</p>
+                    <input type="checkbox" name="camry" id="" value="camry">
+                    <input type="checkbox" name="corolla" id="" value="corolla">
+                    <input type="checkbox" name="solara" id="" value="solara">
+                    <input type="checkbox" name="rav4" id="" value="rav4">
+                    <input type="checkbox" name="highlander" id="" value="highlander">
+                </div>
+                <div class="body">
+                    <p>Body Style</p>
+                    <input type="checkbox" name="coupe" id="" value="coupe">
+                    <input type="checkbox" name="hatchback" id="" value="hatchback">
+                    <input type="checkbox" name="minivan" id="" value="minivan">
+                    <input type="checkbox" name="sedan" id="" value="sedan">
+                    <input type="checkbox" name="wagon" id="" value="wagon">
+                </div>
+            </form>
+        </div>
+    </aside>
+    <footer>
+        <h3>Andela Developer Challenge</h3>
+    </footer>
+    <script src="js/inventory.js"></script>
+</body>
+
+</html>
