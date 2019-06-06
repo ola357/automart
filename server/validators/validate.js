@@ -44,5 +44,12 @@ class Validate {
     };
     return Joi.validate(order, schema);
   }
+
+  static updateOrderPrice(order) {
+    const schema = {
+      amount: Joi.number().required(),
+    };
+    return Joi.validate(order, schema);
+  }
 }
 export default Validate;

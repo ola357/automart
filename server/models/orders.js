@@ -11,7 +11,14 @@ const orders = [
     buyer: 2,
     carId: 1,
     amount: 2000000,
-    status: "accepted",
+    status: "pending",
+  },
+  {
+    id: 3,
+    buyer: 3,
+    carId: 1,
+    amount: 2000000,
+    status: "rejected",
   },
 ];
 export default orders;
