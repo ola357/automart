@@ -21,5 +21,28 @@ class Validate {
     };
     return Joi.validate(user, schema);
   }
+
+  static createCarAd(car) {
+    const schema = {
+      owner: Joi.number().required(),
+      state: Joi.string().required(),
+      status: Joi.string().required(),
+      price: Joi.number().required(),
+      manufacturer: Joi.string().required(),
+      model: Joi.string().required(),
+      body: Joi.string().required(),
+    };
+    return Joi.validate(car, schema);
+  }
+
+  static createPurchaseOrder(order) {
+    const schema = {
+      buyer: Joi.number().required(),
+      carId: Joi.number().required(),
+      amount: Joi.number().required(),
+      status: Joi.string().required(),
+    };
+    return Joi.validate(order, schema);
+  }
 }
 export default Validate;
