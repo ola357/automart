@@ -1,6 +1,6 @@
 import encrypter from 'object-encrypter';
 import bcrypt from 'bcrypt';
-import validate from '../validators/Validate';
+import validate from '../validators/validate';
 import { users, salt } from '../models/users';
 
 const engine = encrypter('my secret');
