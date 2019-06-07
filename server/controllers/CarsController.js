@@ -45,5 +45,61 @@ class CarsController {
       ],
     });
   }
+
+  static updateCarAdPrice(req, res) {
+    const car = cars.find(c => c.id === parseInt(req.params.carId, 10));
+    if (!car) {
+      return res.status(404).send({
+        status: 404,
+        error: "The car with the given ID was not found.",
+      });
+    }
+
+    const { error } = validate.updateCarAdPrice(req.body);
+    if (error) return res.status(400).send({ status: 400, error: error.details[0].message });
+    car.price = req.body.price;
+    car.createdOn = Date.now();
+    res.status(200).send({
+      status: 200,
+      data: [
+        {
+          id: car.id,
+          createdOn: car.createdOn,
+          manufacturer: car.manufacturer,
+          model: car.model,
+          price: car.price,
+          state: car.state,
+          status: car.status,
+        },
+      ],
+    });
+  }
+
+  static getSpecificCar(req, res) {
+    const car = cars.find(c => c.id === parseInt(req.params.carId, 10));
+    if (!car) {
+      return res.status(404).send({
+        status: 404,
+        error: "The car ad with the given ID was not found.",
+      });
+    }
+    const {
+      id, owner, createdOn, state, status, price, manufacturer, model, body,
+    } = car;
+    res.send({
+      status: 200,
+      data: [{
+        id,
+        owner,
+        createdOn,
+        state,
+        status,
+        price,
+        manufacturer,
+        model,
+        body,
+      }],
+    });
+  }
 }
 export default CarsController;

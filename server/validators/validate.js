@@ -51,5 +51,12 @@ class Validate {
     };
     return Joi.validate(order, schema);
   }
+
+  static updateCarAdPrice(car) {
+    const schema = {
+      price: Joi.number().required(),
+    };
+    return Joi.validate(car, schema);
+  }
 }
 export default Validate;

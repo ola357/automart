@@ -5,4 +5,6 @@ const router = express.Router();
 
 router.post('/', CarsController.createCarAd);
 router.patch('/:carId/status', CarsController.updateCarAdStatus);
+router.patch('/:carId/price', CarsController.updateCarAdPrice);
+router.get('/:carId', CarsController.getSpecificCar);
 export default router;
