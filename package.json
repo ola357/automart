@@ -2,12 +2,15 @@
   "name": "automart",
   "version": "1.0.0",
   "description": "Auto Mart is an online marketplace for automobiles of diverse makes, model or body type.",
-  "main": "index.js",
+  "main": "app.js",
   "scripts": {
     "test": "nyc --reporter=lcov --reporter=text mocha --require @babel/register --require @babel/polyfill",
-    "start": "nodemon --exec babel-node server/app.js",
+    "start": "npm run build && node dist/app.js",
     "build": "babel server --out-dir dist",
     "serve": "node dist/app.js"
+  },
+  "engines":{
+    "node": "10.15.1"
   },
   "repository": {
     "type": "git",
