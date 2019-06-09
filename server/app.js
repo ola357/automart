@@ -1,11 +1,14 @@
 import '@babel/polyfill';
 import express, { json, urlencoded } from 'express';
+import swaggerUI from 'swagger-ui-express';
 import auth from './routes/auth';
 import cars from './routes/cars';
 import orders from './routes/orders';
+import swaggerDoc from './swagger';
 
 const app = express();
 
+app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(swaggerDoc));
 app.use(json());
 app.use(urlencoded({ extended: true }));
 app.use('/api/v1/auth', auth);
