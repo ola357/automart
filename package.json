@@ -5,9 +5,9 @@
   "main": "app.js",
   "scripts": {
     "test": "nyc --reporter=lcov --reporter=text mocha --require @babel/register --require @babel/polyfill",
-    "flow": "nodemon --exec babel-node server/app.js",
     "start": "node dist/app.js",
     "start1": "npm run build && nodemon dist/app.js",
+    "flow": "nodemon --exec babel-node server/app.js",
     "build": "babel server --out-dir dist",
     "serve": "node dist/app.js",
     "clean": "rm -r dist",
