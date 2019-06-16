@@ -4,7 +4,7 @@ import swaggerUI from 'swagger-ui-express';
 import auth from './routes/auth';
 import cars from './routes/cars';
 import orders from './routes/orders';
-import swaggerDoc from './swagger';
+import swaggerDoc from '../swagger';
 
 const app = express();
 
