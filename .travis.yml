@@ -1,4 +1,18 @@
 language: node_js
 node_js:
   - "stable"
-after_success: npm run coverage
+install:
+  - npm install
+script:
+  - npm test
+services:
+  - postgresql
+before_script:
+  - psql -c 'CREATE DATABASE automarttest;' -U postgres
+env:
+  - NODE_ENV=test
+cache:
+  directories:
+    - "node_modules"
+after_success :
+    - npm run coverage
