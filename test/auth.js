@@ -14,14 +14,15 @@ describe('Authentication', () => {
   after(async () => {
     await db.query(`DELETE FROM users;`);
   });
+  /** *****BEGINNING POST user signup route****** */
   describe('/POST auth/signup', () => {
     it('it should signup a new user', (done) => {
       const user = {
-        email: "tobi@gmail.com",
-        firstname: "John",
-        lastname: "Bull",
-        password: "growing15",
-        address: "sokoto",
+        email: "lagbaja@gmail.com",
+        firstname: "lagbaja",
+        lastname: "tamedu",
+        password: "testing123",
+        address: "gasline",
       };
       request(server)
         .post('/api/v1/auth/signup')
@@ -33,10 +34,11 @@ describe('Authentication', () => {
     });
     it('validation logic should kick in', (done) => {
       const user = {
-        email: "a",
-        firstName: "John",
-        lastName: "Bull",
-        password: "growing15",
+        email: "lagbaja",
+        firstname: "lagbaja",
+        lastname: "tamedu",
+        password: "testing123",
+        address: "gasline",
       };
       request(server)
         .post('/api/v1/auth/signup')
@@ -48,11 +50,11 @@ describe('Authentication', () => {
     });
     it('throw error if user already registered', (done) => {
       const user = {
-        email: "tobi@gmail.com",
-        firstname: "John",
-        lastname: "Bull",
-        password: "growing15",
-        address: "sokoto",
+        email: "lagbaja@gmail.com",
+        firstname: "lagbaja",
+        lastname: "tamedu",
+        password: "testing123",
+        address: "gasline",
       };
       request(server)
         .post('/api/v1/auth/signup')
@@ -63,18 +65,20 @@ describe('Authentication', () => {
         });
     });
   });
-  // Test Suite for the POST /auth/login (LOGIN USERS) ROUTE
-  /* describe('/POST auth/signin', () => {
-    it('it should login a user', (done) => {
+  /** ******BEGINING of POST user signin route********  */
+  describe('/POST auth/signin', () => {
+    it('it should signin a user', (done) => {
       const user = {
-        email: "ola357@yahoo.com",
-        password: "abc123",
+        email: "lagbaja@gmail.com",
+        password: "testing123",
       };
       request(server)
         .post('/api/v1/auth/signin')
         .send(user)
         .end((err, res) => {
           res.should.have.status(200);
+          res.body.should.be.a('object');
+          res.should.be.json;
           done();
         });
     });
@@ -88,6 +92,8 @@ describe('Authentication', () => {
         .send(user)
         .end((err, res) => {
           res.should.have.status(400);
+          res.body.should.be.a('object');
+          // res.should.be.json;
           done();
         });
     });
@@ -101,12 +107,14 @@ describe('Authentication', () => {
         .send(user)
         .end((err, res) => {
           res.should.have.status(400);
+          res.body.should.be.a('object');
+          // res.should.be.json;
           done();
         });
     });
     it('throw error if user password is wrong', (done) => {
       const user = {
-        email: "ola357@yahoo.com",
+        email: "lagbaja@gmail.com",
         password: "freebie34",
       };
       request(server)
@@ -114,10 +122,12 @@ describe('Authentication', () => {
         .send(user)
         .end((err, res) => {
           res.should.have.status(400);
+          res.body.should.be.a('object');
+          // res.should.be.json;
           done();
         });
     });
-  }); */
+  });
 });
 
 /* describe('Example Node Server', () => {

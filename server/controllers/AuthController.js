@@ -11,6 +11,7 @@ class AuthControllers {
    *
    * @param {object} req
    * @param {oject} res
+   * controller for the POST/ api/v1/signup route
    */
   static async userSignup(req, res) {
     // validate request body using Joi
@@ -25,6 +26,7 @@ class AuthControllers {
       email, firstname, lastname, password, address,
     } = req.body;
 
+    // check if user is already registered
     let user = await dbConnection.query(
       'SELECT * FROM users WHERE email = ($1)', [email],
     );
@@ -35,13 +37,13 @@ class AuthControllers {
       });
     }
 
+    // hash password and save data to database
     const hashpassword = await bcrypt.hash(password, 10);
     user = await dbConnection.query(
       `INSERT INTO "users" ("firstname", "lastname", "email", "password", "address")
       VALUES ('${firstname}','${lastname}', '${email}', '${hashpassword}',
        '${address}') RETURNING *`,
     );
-    // console.log(user);
 
     const token = jwt.sign({
       _id: user.rows[0].id,
@@ -56,18 +58,43 @@ class AuthControllers {
     });
   }
 
+  /**
+   *
+   * @param {object} req
+   * @param {oject} res
+   * controller for the POST/ api/v1/signin route
+   * users can signin to their accounts
+   */
   static async userSignin(req, res) {
+    // validate request body
     const { error } = validate.userSignin(req.body);
     if (error) return res.status(400).send({ status: 400, error: error.details[0].message });
 
-    const user = users.find(entry => entry.email === req.body.email);
-    if (!user) return res.status(400).send({ status: 400, error: "invalid email" });
+    const { email, password } = req.body;
 
-    const validPassword = await bcrypt.compare(req.body.password, user.password);
-    if (!validPassword) return res.status(400).send({ status: 400, error: "invalid password" });
-    const token = engine.encrypt(user);
+    const user = await dbConnection.query(
+      'SELECT * FROM users WHERE email = ($1)', [email],
+    );
+    // console.log(user);
+    if (user.rowCount !== 1) return res.status(400).send({ status: 400, error: "invalid email or password" });
 
-    res.send({ status: 200, data: [{ token }] });
+    const validPassword = await bcrypt.compare(password, user.rows[0].password);
+    if (!validPassword) return res.status(400).send({ status: 400, error: "invalid email or password" });
+
+    const { id, firstname, lastname } = user.rows[0];
+
+    const token = jwt.sign({
+      id,
+      _email: user.rows[0].email,
+    }, process.env.jwtPrivateKey);
+
+    // await db.end();
+    res.send({
+      status: 200,
+      data: [{
+        token, id, firstname, lastname, email,
+      }],
+    });
   }
 }
 export default AuthControllers;
