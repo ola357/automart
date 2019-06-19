@@ -28,7 +28,7 @@ class Validate {
       price: Joi.number().required(),
       manufacturer: Joi.string().required(),
       model: Joi.string().required(),
-      body: Joi.string().required(),
+      bodytype: Joi.string().required(),
     };
     return Joi.validate(car, schema);
   }
