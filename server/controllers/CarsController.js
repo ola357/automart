@@ -1,24 +1,37 @@
 import cars from '../models/cars';
 import validate from '../validators/validate';
 import Compare from '../util/Compare';
+import dbConnection from '../models/dbConnection';
 
 class CarsController {
-  static createCarAd(req, res) {
+  static async createCarAd(req, res) {
     const { error } = validate.createCarAd(req.body);
     if (error) return res.status(400).send({ status: 400, error: error.details[0].message });
-    const car = {
-      id: cars.length + 1,
-      owner: req.body.owner,
-      createdOn: Date.now(),
-      state: req.body.state,
-      status: req.body.status,
-      price: req.body.price,
-      manufacturer: req.body.manufacturer,
-      model: req.body.model,
-      body: req.body.body,
-    };
-    cars.push(car);
-    res.send({ status: 200, data: [car] });
+
+    const {
+      state, status, price, manufacturer, model, bodytype,
+    } = req.body;
+    const owner = req.user._id;
+    const email = req.user._email;
+
+    const car = await dbConnection.query(
+      `INSERT INTO cars(
+        owner, state, status, price, manufacturer, model, bodytype) 
+         VALUES($1,$2,$3,$4,$5,$6,$7) RETURNING *`,
+      [owner, state, status, price, manufacturer, model, bodytype],
+    );
+    res.send({
+      status: 200,
+      data: {
+        id: car.rows[0].id,
+        email,
+        createdon: car.rows[0].createdon,
+        manufacturer: car.rows[0].manufacturer,
+        model: car.rows[0].model,
+        price: car.rows[0].price,
+        state: car.rows[0].state,
+      },
+    });
   }
 
   static updateCarAdStatus(req, res) {

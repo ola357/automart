@@ -48,13 +48,14 @@ class AuthControllers {
     const token = jwt.sign({
       _id: user.rows[0].id,
       _email: user.rows[0].email,
+      _isadmin: false,
     }, process.env.jwtPrivateKey);
 
     res.header('x-auth-token', token).send({
       status: 200,
-      data: [{
+      data: {
         token, id: user.rows[0].id, firstname, lastname, email,
-      }],
+      },
     });
   }
 
@@ -81,19 +82,22 @@ class AuthControllers {
     const validPassword = await bcrypt.compare(password, user.rows[0].password);
     if (!validPassword) return res.status(400).send({ status: 400, error: "invalid email or password" });
 
-    const { id, firstname, lastname } = user.rows[0];
+    const {
+      id, firstname, lastname, isadmin,
+    } = user.rows[0];
 
     const token = jwt.sign({
-      id,
+      _id: id,
       _email: user.rows[0].email,
+      _isadmin: isadmin,
     }, process.env.jwtPrivateKey);
 
     // await db.end();
     res.send({
       status: 200,
-      data: [{
+      data: {
         token, id, firstname, lastname, email,
-      }],
+      },
     });
   }
 }
