@@ -23,7 +23,6 @@ class Validate {
 
   static createCarAd(car) {
     const schema = {
-      owner: Joi.number().required(),
       state: Joi.string().required(),
       status: Joi.string().required(),
       price: Joi.number().required(),
