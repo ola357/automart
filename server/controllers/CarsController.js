@@ -30,6 +30,7 @@ class CarsController {
         model: car.rows[0].model,
         price: car.rows[0].price,
         state: car.rows[0].state,
+        status: car.rows[0].status,
       },
     });
   }
