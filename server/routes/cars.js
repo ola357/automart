@@ -13,7 +13,7 @@ cloudinary.config({
 });
 router.post('/', AuthoriseRoutes.protect, CarsController.createCarAd);
 router.patch('/:carId/status', AuthoriseRoutes.protect, CarsController.updateCarAdStatus);
-router.patch('/:carId/price', CarsController.updateCarAdPrice);
+router.patch('/:carId/price', AuthoriseRoutes.protect, CarsController.updateCarAdPrice);
 router.get('/:carId', CarsController.getSpecificCar);
 router.get('/', CarsController.getCars);
 router.post('/testing', upload.single('images'), (req, res) => {
