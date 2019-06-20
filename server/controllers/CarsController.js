@@ -89,7 +89,6 @@ class CarsController {
   }
 
   static async updateCarAdPrice(req, res) {
-    /** 88888888888888888 */
     // validate request parameter
     try {
       Validateparams.evaluate(req.params.carId);
@@ -110,30 +109,36 @@ class CarsController {
     }
 
     const { price } = req.body;
-    await dbConnection.query('BEGIN');
-    const car = await dbConnection.query(
-      `UPDATE cars
-      SET price = ($1)
-      WHERE id = ($2)
-      RETURNING *`,
-      [price, req.params.carId],
-    );
-    await dbConnection.query('COMMIT');
-    // if car doesn't exist
-    if ((car.rowCount === 0)) {
-      return res.status(404).send({
-        status: 404,
-        error: "The car with the given ID was not found.",
-      });
-    }
-    // if car is already sold
-    if ((car.rows[0].status === 'sold')) {
+    let car;
+    try {
+      await dbConnection.query('BEGIN');
+      car = await dbConnection.query(
+        `UPDATE cars
+        SET price = ($1)
+        WHERE id = ($2)
+        RETURNING *`,
+        [price, req.params.carId],
+      );
+      // if car doesn't exist
+      if ((car.rowCount === 0)) {
+        return res.status(404).send({
+          status: 404,
+          error: "The car with the given ID was not found.",
+        });
+      }
+      // if car is already sold
+      if ((car.rows[0].status === 'sold')) {
+        throw new Error('car already sold');
+      }
+      await dbConnection.query('COMMIT');
+    } catch (err) {
       await dbConnection.query('ROLLBACK');
       return res.status(404).send({
         status: 404,
         error: "You can't update a sold car's price",
       });
     }
+
 
     res.status(200).send({
       status: 200,
@@ -150,17 +155,30 @@ class CarsController {
     });
   }
 
-  static getSpecificCar(req, res) {
-    const car = cars.find(c => c.id === parseInt(req.params.carId, 10));
-    if (!car) {
+  static async getSpecificCar(req, res) {
+    try {
+      Validateparams.evaluate(req.params.carId);
+    } catch (error) {
+      return res.status(404).send({
+        status: 400,
+        error: "Invalid request",
+      });
+    }
+
+    const car = await dbConnection.query(
+      `SELECT * FROM cars
+      WHERE id = ($1)`,
+      [req.params.carId],
+    );
+    if ((car.rowCount === 0)) {
       return res.status(404).send({
         status: 404,
-        error: "The car ad with the given ID was not found.",
+        error: "The car with the given ID was not found.",
       });
     }
     const {
-      id, owner, createdOn, state, status, price, manufacturer, model, body,
-    } = car;
+      id, owner, createdOn, state, status, price, manufacturer, model, bodytype,
+    } = car.rows[0];
     res.send({
       status: 200,
       data: [{
@@ -172,7 +190,7 @@ class CarsController {
         price,
         manufacturer,
         model,
-        body,
+        bodytype,
       }],
     });
   }
