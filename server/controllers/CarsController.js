@@ -1,5 +1,6 @@
 import cars from '../models/cars';
 import validate from '../validators/validate';
+import Validateparams from '../validators/ValidateParams';
 import Compare from '../util/Compare';
 import dbConnection from '../models/dbConnection';
 
@@ -35,29 +36,56 @@ class CarsController {
     });
   }
 
-  static updateCarAdStatus(req, res) {
-    const car = cars.find(c => c.id === parseInt(req.params.carId, 10));
-    if (!car) {
+  static async updateCarAdStatus(req, res) {
+    /** ********************** */
+    // validate request parameter
+    try {
+      Validateparams.evaluate(req.params.carId);
+    } catch (error) {
+      return res.status(404).send({
+        status: 400,
+        error: "Invalid request",
+      });
+    }
+
+    // validate request body
+    const { error } = validate.updateCarAdStatus(req.body);
+    if (error) {
+      return res.status(400).send({
+        status: 400,
+        error: error.details[0].message,
+      });
+    }
+
+    const { status } = req.body;
+
+    const car = await dbConnection.query(
+      `UPDATE cars
+      SET status = ($1)
+      WHERE id = ($2)
+      RETURNING *`,
+      [status, req.params.carId],
+    );
+
+    // if car doesn't exist
+    if ((car.rowCount === 0)) {
       return res.status(404).send({
         status: 404,
         error: "The car with the given ID was not found.",
       });
     }
-
-    car.status = req.body.status;
     res.status(200).send({
       status: 200,
-      data: [
-        {
-          id: car.id,
-          createdOn: Date.now(),
-          manufacturer: car.manufacturer,
-          model: car.model,
-          price: car.price,
-          state: car.state,
-          status: car.status,
-        },
-      ],
+      data: {
+        id: car.rows[0].id,
+        email: req.user._email,
+        createdOn: car.rows[0].createdon,
+        manufacturer: car.rows[0].manufacturer,
+        model: car.rows[0].model,
+        price: car.rows[0].price,
+        state: car.rows[0].state,
+        status: car.rows[0].status,
+      },
     });
   }
 
