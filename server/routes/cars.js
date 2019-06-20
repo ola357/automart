@@ -12,7 +12,7 @@ cloudinary.config({
   api_secret: '_eT8SAXW2zjD0g8x2sJvTlughdg',
 });
 router.post('/', AuthoriseRoutes.protect, CarsController.createCarAd);
-router.patch('/:carId/status', CarsController.updateCarAdStatus);
+router.patch('/:carId/status', AuthoriseRoutes.protect, CarsController.updateCarAdStatus);
 router.patch('/:carId/price', CarsController.updateCarAdPrice);
 router.get('/:carId', CarsController.getSpecificCar);
 router.get('/', CarsController.getCars);

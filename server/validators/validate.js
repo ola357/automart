@@ -48,6 +48,13 @@ class Validate {
     return Joi.validate(order, schema);
   }
 
+  static updateCarAdStatus(car) {
+    const schema = {
+      status: Joi.string().required(),
+    };
+    return Joi.validate(car, schema);
+  }
+
   static updateCarAdPrice(car) {
     const schema = {
       price: Joi.number().required(),
