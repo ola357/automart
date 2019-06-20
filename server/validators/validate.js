@@ -35,10 +35,8 @@ class Validate {
 
   static createPurchaseOrder(order) {
     const schema = {
-      buyer: Joi.number().required(),
-      carId: Joi.number().required(),
+      carid: Joi.number().required(),
       amount: Joi.number().required(),
-      status: Joi.string().required(),
     };
     return Joi.validate(order, schema);
   }

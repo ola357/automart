@@ -2,6 +2,7 @@ import express from 'express';
 import cloudinary from 'cloudinary';
 import CarsController from '../controllers/CarsController';
 import upload from '../middleware/FormImageHandler';
+import AuthoriseRoutes from '../middleware/AuthoriseRoutes';
 
 
 const router = express.Router();
@@ -10,7 +11,7 @@ cloudinary.config({
   api_key: '294318289196749',
   api_secret: '_eT8SAXW2zjD0g8x2sJvTlughdg',
 });
-router.post('/', CarsController.createCarAd);
+router.post('/', AuthoriseRoutes.protect, CarsController.createCarAd);
 router.patch('/:carId/status', CarsController.updateCarAdStatus);
 router.patch('/:carId/price', CarsController.updateCarAdPrice);
 router.get('/:carId', CarsController.getSpecificCar);
