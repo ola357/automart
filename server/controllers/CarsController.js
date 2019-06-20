@@ -37,7 +37,6 @@ class CarsController {
   }
 
   static async updateCarAdStatus(req, res) {
-    /** ********************** */
     // validate request parameter
     try {
       Validateparams.evaluate(req.params.carId);
@@ -89,32 +88,65 @@ class CarsController {
     });
   }
 
-  static updateCarAdPrice(req, res) {
-    const car = cars.find(c => c.id === parseInt(req.params.carId, 10));
-    if (!car) {
+  static async updateCarAdPrice(req, res) {
+    /** 88888888888888888 */
+    // validate request parameter
+    try {
+      Validateparams.evaluate(req.params.carId);
+    } catch (error) {
+      return res.status(404).send({
+        status: 400,
+        error: "Invalid request",
+      });
+    }
+
+    // validate request body
+    const { error } = validate.updateCarAdPrice(req.body);
+    if (error) {
+      return res.status(400).send({
+        status: 400,
+        error: error.details[0].message,
+      });
+    }
+
+    const { price } = req.body;
+    await dbConnection.query('BEGIN');
+    const car = await dbConnection.query(
+      `UPDATE cars
+      SET price = ($1)
+      WHERE id = ($2)
+      RETURNING *`,
+      [price, req.params.carId],
+    );
+    await dbConnection.query('COMMIT');
+    // if car doesn't exist
+    if ((car.rowCount === 0)) {
       return res.status(404).send({
         status: 404,
         error: "The car with the given ID was not found.",
       });
     }
+    // if car is already sold
+    if ((car.rows[0].status === 'sold')) {
+      await dbConnection.query('ROLLBACK');
+      return res.status(404).send({
+        status: 404,
+        error: "You can't update a sold car's price",
+      });
+    }
 
-    const { error } = validate.updateCarAdPrice(req.body);
-    if (error) return res.status(400).send({ status: 400, error: error.details[0].message });
-    car.price = req.body.price;
-    car.createdOn = Date.now();
     res.status(200).send({
       status: 200,
-      data: [
-        {
-          id: car.id,
-          createdOn: car.createdOn,
-          manufacturer: car.manufacturer,
-          model: car.model,
-          price: car.price,
-          state: car.state,
-          status: car.status,
-        },
-      ],
+      data: {
+        id: car.rows[0].id,
+        email: req.user._email,
+        createdOn: car.rows[0].createdon,
+        manufacturer: car.rows[0].manufacturer,
+        model: car.rows[0].model,
+        price: car.rows[0].price,
+        state: car.rows[0].state,
+        status: car.rows[0].status,
+      },
     });
   }
 
