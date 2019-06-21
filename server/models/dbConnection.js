@@ -3,7 +3,7 @@ import dotenv from 'dotenv';
 
 dotenv.config();
 
-let connectionString;
+/** let connectionString;
 if (process.env.NODE_ENV === 'test') {
   connectionString = {
     user: "postgres",
@@ -21,7 +21,10 @@ if (process.env.NODE_ENV === 'test') {
     port: 5432,
   };
 }
-
-const dbConnection = new Pool(connectionString);
+*/
+const dbConnection = new Pool({
+  connectionString: process.env.DATABASE_URL,
+  ssl: true,
+});
 
 export default dbConnection;
