@@ -1,4 +1,3 @@
-import cars from '../models/cars';
 import validate from '../validators/validate';
 import Validateparams from '../validators/ValidateParams';
 import Compare from '../util/Compare';
@@ -195,55 +194,72 @@ class CarsController {
     });
   }
 
-  static getCars(req, res) {
+  static async getCars(req, res) {
     const query = Object.keys(req.query).sort();
     const {
-      status, minPrice, maxPrice, state, manufacturer, body,
+      status, minPrice, maxPrice, state, manufacturer, bodytype,
     } = req.query;
 
     if (Compare.equality(query, [])) {
       /* GET /cars */
+      const cars = await dbConnection.query(`SELECT * FROM cars;`);
       res.send({
         status: 200,
-        data: cars,
+        data: cars.rows,
       });
     } else if (Compare.equality(query, ['status'])) {
       /* GET /cars?status=value */
-      const result = cars.filter(vehicle => vehicle.status === status);
+      const result = await dbConnection.query(
+        `SELECT * FROM cars WHERE status = ($1)`,
+        [status],
+      );
       res.send({
         status: 200,
-        data: result,
+        data: result.rows,
       });
     } else if (Compare.equality(query, ['maxPrice', 'minPrice', 'status'])) {
       /* GET /cars?status=value&minPrice=xxxValue&maxPrice=xxxValue */
-      const result = cars.filter(vehicle => ((vehicle.status === status)
-      && ((vehicle.price >= minPrice) && (vehicle.price <= maxPrice))));
+      const result = await dbConnection.query(
+        `SELECT * FROM cars WHERE status = ($1)
+        AND price <= ($2)
+        AND price >= ($3)`,
+        [status, maxPrice, minPrice],
+      );
       res.send({
         status: 200,
-        data: result,
+        data: result.rows,
       });
     } else if (Compare.equality(query, ['state', 'status'])) {
       /* GET /cars?status=value&state=value */
-      const result = cars.filter(vehicle => ((vehicle.status === status)
-      && (vehicle.state === state)));
+      const result = await dbConnection.query(
+        `SELECT * FROM cars WHERE status = ($1)
+        AND state = ($2)`,
+        [status, state],
+      );
       res.send({
         status: 200,
-        data: result,
+        data: result.rows,
       });
     } else if (Compare.equality(query, ['manufacturer', 'status'])) {
       /* GET /cars?status=value&manufacturer=value */
-      const result = cars.filter(vehicle => ((vehicle.status === status)
-      && (vehicle.manufacturer === manufacturer)));
+      const result = await dbConnection.query(
+        `SELECT * FROM cars WHERE status = ($1)
+        AND manufacturer = ($2)`,
+        [status, manufacturer],
+      );
       res.send({
         status: 200,
-        data: result,
+        data: result.rows,
       });
-    } else if (Compare.equality(query, ['body'])) {
+    } else if (Compare.equality(query, ['bodytype'])) {
       /* GET /cars?body=value */
-      const result = cars.filter(vehicle => vehicle.body === body);
+      const result = await dbConnection.query(
+        `SELECT * FROM cars WHERE bodytype = ($1)`,
+        [bodytype],
+      );
       res.send({
         status: 200,
-        data: result,
+        data: result.rows,
       });
     } else {
       res.status(404).send({
