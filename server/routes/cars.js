@@ -3,6 +3,7 @@ import cloudinary from 'cloudinary';
 import CarsController from '../controllers/CarsController';
 import upload from '../middleware/FormImageHandler';
 import AuthoriseRoutes from '../middleware/AuthoriseRoutes';
+import AdminAuthoriseRoutes from '../middleware/AdminAuthoriseRoutes';
 
 
 const router = express.Router();
