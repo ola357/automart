@@ -268,5 +268,36 @@ class CarsController {
       });
     }
   }
+
+  static async deleteSpecificCarAd(req, res) {
+    // validate params
+    try {
+      Validateparams.evaluate(req.params.carId);
+    } catch (error) {
+      return res.status(404).send({
+        status: 400,
+        error: "Invalid request",
+      });
+    }
+    // query database
+    const car = await dbConnection.query(
+      `DELETE FROM cars
+      WHERE id = ($1)
+      RETURNING *`,
+      [req.params.carId],
+    );
+    // if car ad doesn't exist
+    if ((car.rowCount === 0)) {
+      return res.status(404).send({
+        status: 404,
+        error: "The car with the given ID was not found.",
+      });
+    }
+    // if it exist, delete car ad
+    res.send({
+      status: 200,
+      data: "Car Ad succesfully deleted",
+    });
+  }
 }
 export default CarsController;

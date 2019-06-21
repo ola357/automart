@@ -61,5 +61,14 @@ class Validate {
     };
     return Joi.validate(car, schema);
   }
+
+  static flagCarAd(car) {
+    const schema = {
+      carid: Joi.number().required(),
+      reason: Joi.string().required(),
+      description: Joi.string(),
+    };
+    return Joi.validate(car, schema);
+  }
 }
 export default Validate;
