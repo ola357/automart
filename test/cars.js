@@ -1,26 +1,50 @@
 import { should, use, request } from 'chai';
 import chaiHttp from 'chai-http';
+import jwt from 'jsonwebtoken';
+import dotenv from 'dotenv';
 
 import server from '../server/app';
 
+import dbConnection from '../server/models/dbConnection';
+
 should();
 use(chaiHttp);
-
+dotenv.config();
+let token;
+dbConnection.query(`SELECT * FROM users WHERE email = 'bond@gmail.com';`).then((res) => {
+  token = jwt.sign({
+    _id: res.rows[0].id,
+    _email: res.rows[0].email,
+    _isadmin: false,
+  }, process.env.jwtPrivateKey).toString();
+  console.log(token);
+}).catch(err => console.error("explosion ", err));
+/**  const testuser = async () => {
+const result = await dbConnection.query(
+  `SELECT * FROM users WHERE email = ($1);`, ['lagabja@gmail.com']);
+const motors = await dbConnection.query(
+  `SELECT * FROM cars WHERE owner = ($1);`, [result.rows[0].id]);
+  // return motors.rows[0].id;
+  console.log(result.rows);
+  console.log(motors.rows);
+};
+const routeparam = `/api/v1/car/${testuser()}`; */
 //  PARENT BLOCK
-describe('Cars', () => {
+describe('car', () => {
   // Test Post/Create new Car sale ad
-  describe('POST/api/v1/cars', () => {
+  describe('POST/api/v1/car', () => {
     it('it should create a new car ad', (done) => {
       const car = {
         state: "new",
         status: "available",
         price: 3500000,
-        manufacturer: "toyota",
-        model: "avensis",
-        body: "sedan",
+        manufacturer: "xxxxx",
+        model: "yyyyy",
+        bodytype: "sedan",
       };
       request(server)
-        .post('/api/v1/cars')
+        .post('/api/v1/car')
+        .set('x-auth-token', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOjM4LCJfZW1haWwiOiJvcGVAbXNuLmNvbSIsIl9pc2FkbWluIjpmYWxzZSwiaWF0IjoxNTYxMTQ0OTA2fQ.UJVn8TwsZLiTjVvtWiRaf6iy0qnXKreeDSMCzdQ5apQ')
         .send(car)
         .end((err, res) => {
           res.should.have.status(200);
@@ -29,12 +53,16 @@ describe('Cars', () => {
     });
     it('validation logic should kick in', (done) => {
       const car = {
-        subject: "Unit Test",
-        car: "Install mocha",
-        status: "refactor",
+        state: "new",
+        status: "available",
+        price: "trow",
+        manufacturer: "toyota",
+        model: "avensis",
+        bodytype: "sedan",
       };
       request(server)
-        .post('/api/v1/cars')
+        .post('/api/v1/car')
+        // .set('x-auth-token', token)
         .send(car)
         .end((err, res) => {
           res.should.have.status(400);
@@ -44,24 +72,25 @@ describe('Cars', () => {
   });
   // End Of POST a New Message Route
   // ***********************************
-  //    Test the /GET cars route
-  describe('/GET cars', () => {
-    it('it should GET all recieved cars', (done) => {
+  //    Test the /GET car route
+  describe('/GET car', () => {
+    it('it should GET all recieved car', (done) => {
       request(server)
-        .get('/api/v1/cars')
+        .get('/api/v1/car')
         .end((err, res) => {
           res.should.have.status(200);
+          // console.log(res.body.data);
           done();
         });
     });
   });
-  // end of get cars test suite
+  // end of get car test suite
   // **********************
   // Test Get a Specific Message by it's id Route
-  describe('/GET/cars/:id ', () => {
+  describe('/GET/car/:id ', () => {
     it('it should GET a car by the given id', (done) => {
       request(server)
-        .get('/api/v1/cars/2')
+        .get('/api/v1/car/6')
         .end((err, res) => {
           res.should.have.status(200);
           res.body.should.be.a('object');
@@ -70,7 +99,7 @@ describe('Cars', () => {
     });
     it('it give an error when wrong id is sent', (done) => {
       request(server)
-        .get('/api/v1/cars/46')
+        .get('/api/v1/car/463')
         .end((err, res) => {
           res.should.have.status(404);
           done();
@@ -80,10 +109,10 @@ describe('Cars', () => {
   // End of Get specific car route
   // ****************************************
   // Test DELETE A Message Route
-  describe('/DELETE/cars/:id', () => {
+  describe('/DELETE/car/:id', () => {
     it('it should DELETE succesfully', (done) => {
       request(server)
-        .delete('/api/v1/cars/2')
+        .delete('/api/v1/car/6')
         .end((err, res) => {
           res.should.have.status(200);
           done();
@@ -91,7 +120,7 @@ describe('Cars', () => {
     });
     it('it should throw an error', (done) => {
       request(server)
-        .delete('/api/v1/cars/27')
+        .delete('/api/v1/car/27')
         .end((err, res) => {
           res.should.have.status(404);
           done();
@@ -120,7 +149,7 @@ describe('Cars', () => {
     }); */
     it('it should throw an error wen resource is not available', (done) => {
       chai.request(server)
-        .patch('/api/v1/cars/10/status')
+        .patch('/api/v1/car/10/status')
         .end((err, res) => {
           res.should.have.status(404);
           // res.body.should.be.a('object');
@@ -134,7 +163,7 @@ describe('Cars', () => {
     });
     it('it should throw an error wen input is invalid', (done) => {
       chai.request(server)
-        .patch('/api/v1/cars/2/status')
+        .patch('/api/v1/car/2/status')
         .send({
           status: 4,
         })
@@ -151,7 +180,7 @@ describe('Cars', () => {
     });
     it('it should PATCH succesfully', (done) => {
       chai.request(server)
-        .patch('/api/v1/cars/1/status')
+        .patch('/api/v1/car/1/status')
         .send({
           status: "sold",
         })
@@ -173,7 +202,7 @@ describe('Cars', () => {
   describe('PATCH/:car-id/price', () => {
     it('it should throw an error wen resource is not available', (done) => {
       chai.request(server)
-        .patch('/api/v1/cars/10/price')
+        .patch('/api/v1/car/10/price')
         .end((err, res) => {
           res.should.have.status(404);
           done();
@@ -181,7 +210,7 @@ describe('Cars', () => {
     });
     it('it should throw an error wen input is invalid', (done) => {
       chai.request(server)
-        .patch('/api/v1/cars/2/price')
+        .patch('/api/v1/car/2/price')
         .send({
           price: "2.5million",
         })
@@ -192,7 +221,7 @@ describe('Cars', () => {
     });
     it('it should PATCH succesfully', (done) => {
       chai.request(server)
-        .patch('/api/v1/cars/1/price')
+        .patch('/api/v1/car/1/price')
         .send({
           price: 2750000,
         })

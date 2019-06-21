@@ -1,27 +1,33 @@
 import { should, use, request } from 'chai';
 import chaiHttp from 'chai-http';
 import server from '../server/app';
-import db from '../server/models/dbConnection';
+import dbConnection from '../server/models/dbConnection';
+// import db from '../server/models/dbConnection';
 // import createTestDb from '../server/models/createTestDb';
 
 // process.env.NODE_ENV = 'test';
 should();
 use(chaiHttp);
 
+
 //  PARENT BLOCK
 describe('Authentication', () => {
   // Test the /POST auth/signup route
-  after(async () => {
-    await db.query(`DELETE FROM users;`);
+  before(async () => {
+    try {
+      await dbConnection.query(`DELETE FROM users WHERE email = 'bond@gmail.com';`);
+    } catch (error) {
+      console.log("Error");
+    }
   });
   /** *****BEGINNING POST user signup route****** */
   describe('/POST auth/signup', () => {
     it('it should signup a new user', (done) => {
       const user = {
-        email: "lagbaja@gmail.com",
-        firstname: "lagbaja",
-        lastname: "tamedu",
-        password: "testing123",
+        email: "bond@gmail.com",
+        firstname: "james",
+        lastname: "bond",
+        password: "bond007",
         address: "gasline",
       };
       request(server)
@@ -69,8 +75,8 @@ describe('Authentication', () => {
   describe('/POST auth/signin', () => {
     it('it should signin a user', (done) => {
       const user = {
-        email: "lagbaja@gmail.com",
-        password: "testing123",
+        email: "bond@gmail.com",
+        password: "bond007",
       };
       request(server)
         .post('/api/v1/auth/signin')
@@ -79,6 +85,7 @@ describe('Authentication', () => {
           res.should.have.status(200);
           res.body.should.be.a('object');
           res.should.be.json;
+          console.log(res.body.data.token);
           done();
         });
     });
@@ -129,7 +136,6 @@ describe('Authentication', () => {
     });
   });
 });
-
 /* describe('Example Node Server', () => {
   it('should return 200', (done) => {
     http.get('http://127.0.0.1:1337', (res) => {
