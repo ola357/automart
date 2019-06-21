@@ -5,6 +5,7 @@ import dotenv from 'dotenv';
 import auth from './routes/auth';
 import cars from './routes/cars';
 import orders from './routes/orders';
+import flags from './routes/flags';
 import swaggerDoc from '../swagger';
 import createTables from './models/createTables';
 
@@ -19,6 +20,7 @@ app.use(urlencoded({ extended: true }));
 app.use('/api/v1/auth', auth);
 app.use('/api/v1/cars', cars);
 app.use('/api/v1/orders', orders);
+app.use('/api/v1/flag', flags);
 
 const port = process.env.PORT || 5000;
 

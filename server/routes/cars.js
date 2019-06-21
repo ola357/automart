@@ -3,7 +3,7 @@ import cloudinary from 'cloudinary';
 import CarsController from '../controllers/CarsController';
 import upload from '../middleware/FormImageHandler';
 import AuthoriseRoutes from '../middleware/AuthoriseRoutes';
-// import AdminAuthoriseRoutes from '../middleware/AdminAuthoriseRoutes';
+import AdminAuthoriseRoutes from '../middleware/AdminAuthoriseRoutes';
 
 
 const router = express.Router();
@@ -17,6 +17,8 @@ router.patch('/:carId/status', AuthoriseRoutes.protect, CarsController.updateCar
 router.patch('/:carId/price', AuthoriseRoutes.protect, CarsController.updateCarAdPrice);
 router.get('/:carId', CarsController.getSpecificCar);
 router.get('/', CarsController.getCars);
+router.delete('/:carId', [AuthoriseRoutes.protect, AdminAuthoriseRoutes.authenticate],
+  CarsController.deleteSpecificCarAd);
 router.post('/testing', upload.single('images'), (req, res) => {
   console.log(req.body);
   console.log(req.file);
