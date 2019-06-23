@@ -1,3 +1,4 @@
+/* eslint-disable prefer-template */
 import { should, use, request } from 'chai';
 import chaiHttp from 'chai-http';
 import jwt from 'jsonwebtoken';
@@ -15,7 +16,7 @@ dbConnection.query(`SELECT * FROM users WHERE email = 'bond@gmail.com';`).then((
   token = jwt.sign({
     _id: res.rows[0].id,
     _email: res.rows[0].email,
-    _isadmin: false,
+    _isadmin: res.rows[0].isadmin,
   }, process.env.jwtPrivateKey).toString();
   console.log(token);
 }).catch(err => console.error("explosion ", err));
@@ -29,8 +30,30 @@ const motors = await dbConnection.query(
   console.log(motors.rows);
 };
 const routeparam = `/api/v1/car/${testuser()}`; */
+let parameter;
+let parameter2;
+let parameter3;
 //  PARENT BLOCK
 describe('car', () => {
+  before(async () => {
+    try {
+      await dbConnection.query(`DELETE FROM cars WHERE model = 'yyyyy';`);
+    } catch (error) {
+      console.log("Error boom");
+    }
+  });
+  afterEach(async () => {
+    try {
+      const res = await dbConnection.query(`SELECT * FROM cars WHERE model = 'yyyyy';`);
+      console.log(res.rows[0].id);
+      // eslint-disable-next-line prefer-template
+      parameter = '/api/v1/car/' + res.rows[0].id.toString();
+      parameter2 = '/api/v1/car/' + res.rows[0].id.toString() + 'status';
+      parameter3 = '/api/v1/car/' + res.rows[0].id.toString() + 'price';
+    } catch (error) {
+      console.log("Error blam");
+    }
+  });
   // Test Post/Create new Car sale ad
   describe('POST/api/v1/car', () => {
     it('it should create a new car ad', (done) => {
@@ -43,8 +66,8 @@ describe('car', () => {
         bodytype: "sedan",
       };
       request(server)
-        .post('/api/v1/car')
-        .set('x-auth-token', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOjM4LCJfZW1haWwiOiJvcGVAbXNuLmNvbSIsIl9pc2FkbWluIjpmYWxzZSwiaWF0IjoxNTYxMTQ0OTA2fQ.UJVn8TwsZLiTjVvtWiRaf6iy0qnXKreeDSMCzdQ5apQ')
+        .post('/api/v1/car')// .set('x-auth-token', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOjM4LCJfZW1haWwiOiJvcGVAbXNuLmNvbSIsIl9pc2FkbWluIjpmYWxzZSwiaWF0IjoxNTYxMTQ0OTA2fQ.UJVn8TwsZLiTjVvtWiRaf6iy0qnXKreeDSMCzdQ5apQ')
+        .set('x-auth-token', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOjM3LCJfZW1haWwiOiJsYWdiYWphQGdtYWlsLmNvbSIsIl9pc2FkbWluIjp0cnVlLCJpYXQiOjE1NjEyNzA0ODN9.HF1IZeR69O3S4ffvFbPm37tBIpUOH--Nr3DpmkDBYTI')
         .send(car)
         .end((err, res) => {
           res.should.have.status(200);
@@ -62,7 +85,7 @@ describe('car', () => {
       };
       request(server)
         .post('/api/v1/car')
-        // .set('x-auth-token', token)
+        .set('x-auth-token', "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOjg4LCJfZW1haWwiOiJib25kQGdtYWlsLmNvbSIsIl9pc2FkbWluIjpmYWxzZSwiaWF0IjoxNTYxMjY4MDcwfQ.zAkmvycrrzCUpUrO4RpLHUfnTeqvGIjmp9y59Cttj-I")
         .send(car)
         .end((err, res) => {
           res.should.have.status(400);
@@ -90,7 +113,7 @@ describe('car', () => {
   describe('/GET/car/:id ', () => {
     it('it should GET a car by the given id', (done) => {
       request(server)
-        .get('/api/v1/car/6')
+        .get(parameter)
         .end((err, res) => {
           res.should.have.status(200);
           res.body.should.be.a('object');
@@ -99,7 +122,7 @@ describe('car', () => {
     });
     it('it give an error when wrong id is sent', (done) => {
       request(server)
-        .get('/api/v1/car/463')
+        .get('/api/v1/car/4789')
         .end((err, res) => {
           res.should.have.status(404);
           done();
@@ -108,62 +131,21 @@ describe('car', () => {
   });
   // End of Get specific car route
   // ****************************************
-  // Test DELETE A Message Route
-  describe('/DELETE/car/:id', () => {
-    it('it should DELETE succesfully', (done) => {
-      request(server)
-        .delete('/api/v1/car/6')
-        .end((err, res) => {
-          res.should.have.status(200);
-          done();
-        });
-    });
-    it('it should throw an error', (done) => {
-      request(server)
-        .delete('/api/v1/car/27')
-        .end((err, res) => {
-          res.should.have.status(404);
-          done();
-        });
-    });
-  });
-  // End of DELETE Route block
-  // ***************************
   // Test PATC route block
   describe('PATCH/:car-id/status', () => {
-    /* it('it should UPDATE a book given the id', (done) => {
-      let book = new Book({title: "The Chronicles of Narnia",
-       author: "C.S. Lewis", year: 1948, pages: 778})
-      book.save((err, book) => {
-        chai.request(server)
-          .put('/book/' + book.id)
-          .send({title: "The Chronicles of Narnia", author: "C.S. Lewis", year: 1950, pages: 778})
-          .end((err, res) => {
-            res.should.have.status(200);
-            res.body.should.be.a('object');
-            res.body.should.have.property('message').eql('Book updated!');
-            res.body.book.should.have.property('year').eql(1950);
-            done();
-          });
-      });
-    }); */
     it('it should throw an error wen resource is not available', (done) => {
-      chai.request(server)
-        .patch('/api/v1/car/10/status')
+      request(server)
+        .patch('/api/v1/car/7890/status')
+        .set('x-auth-token', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOjM3LCJfZW1haWwiOiJsYWdiYWphQGdtYWlsLmNvbSIsIl9pc2FkbWluIjp0cnVlLCJpYXQiOjE1NjEyNzA0ODN9.HF1IZeR69O3S4ffvFbPm37tBIpUOH--Nr3DpmkDBYTI')
         .end((err, res) => {
           res.should.have.status(404);
-          // res.body.should.be.a('object');
-          // res.body.should.have.property('title');
-          // res.body.should.have.property('author');
-          // res.body.should.have.property('pages');
-          // res.body.should.have.property('year');
-          // res.body.should.have.property('_id').eql(book.id);
           done();
         });
     });
     it('it should throw an error wen input is invalid', (done) => {
-      chai.request(server)
-        .patch('/api/v1/car/2/status')
+      request(server)
+        .patch('/api/v1/car/17/status')
+        .set('x-auth-token', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOjM3LCJfZW1haWwiOiJsYWdiYWphQGdtYWlsLmNvbSIsIl9pc2FkbWluIjp0cnVlLCJpYXQiOjE1NjEyNzA0ODN9.HF1IZeR69O3S4ffvFbPm37tBIpUOH--Nr3DpmkDBYTI')
         .send({
           status: 4,
         })
@@ -179,19 +161,14 @@ describe('car', () => {
         });
     });
     it('it should PATCH succesfully', (done) => {
-      chai.request(server)
-        .patch('/api/v1/car/1/status')
+      request(server)
+        .patch('/api/v1/car/17/status')
+        .set('x-auth-token', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOjM3LCJfZW1haWwiOiJsYWdiYWphQGdtYWlsLmNvbSIsIl9pc2FkbWluIjp0cnVlLCJpYXQiOjE1NjEyNzA0ODN9.HF1IZeR69O3S4ffvFbPm37tBIpUOH--Nr3DpmkDBYTI')
         .send({
           status: "sold",
         })
         .end((err, res) => {
           res.should.have.status(200);
-          // res.body.should.be.a('object');
-          // res.body.should.have.property('title');
-          // res.body.should.have.property('author');
-          // res.body.should.have.property('pages');
-          // res.body.should.have.property('year');
-          // res.body.should.have.property('_id').eql(book.id);
           done();
         });
     });
@@ -201,16 +178,18 @@ describe('car', () => {
   // Test PATC / UPDATE price block
   describe('PATCH/:car-id/price', () => {
     it('it should throw an error wen resource is not available', (done) => {
-      chai.request(server)
-        .patch('/api/v1/car/10/price')
+      request(server)
+        .patch('/api/v1/car/7890/price')
+        .set('x-auth-token', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOjM3LCJfZW1haWwiOiJsYWdiYWphQGdtYWlsLmNvbSIsIl9pc2FkbWluIjp0cnVlLCJpYXQiOjE1NjEyNzA0ODN9.HF1IZeR69O3S4ffvFbPm37tBIpUOH--Nr3DpmkDBYTI')
         .end((err, res) => {
           res.should.have.status(404);
           done();
         });
     });
     it('it should throw an error wen input is invalid', (done) => {
-      chai.request(server)
-        .patch('/api/v1/car/2/price')
+      request(server)
+        .patch(parameter3)
+        .set('x-auth-token', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOjM3LCJfZW1haWwiOiJsYWdiYWphQGdtYWlsLmNvbSIsIl9pc2FkbWluIjp0cnVlLCJpYXQiOjE1NjEyNzA0ODN9.HF1IZeR69O3S4ffvFbPm37tBIpUOH--Nr3DpmkDBYTI')
         .send({
           price: "2.5million",
         })
@@ -220,8 +199,9 @@ describe('car', () => {
         });
     });
     it('it should PATCH succesfully', (done) => {
-      chai.request(server)
-        .patch('/api/v1/car/1/price')
+      request(server)
+        .patch(parameter3)
+        .set('x-auth-token', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOjM3LCJfZW1haWwiOiJsYWdiYWphQGdtYWlsLmNvbSIsIl9pc2FkbWluIjp0cnVlLCJpYXQiOjE1NjEyNzA0ODN9.HF1IZeR69O3S4ffvFbPm37tBIpUOH--Nr3DpmkDBYTI')
         .send({
           price: 2750000,
         })
@@ -231,4 +211,27 @@ describe('car', () => {
         });
     });
   });
+  // Test DELETE A Message Route
+  describe('/DELETE/car/:id', () => {
+    it('it should DELETE succesfully', (done) => {
+      request(server)
+        .delete(parameter3)
+        .set('x-auth-token', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOjM3LCJfZW1haWwiOiJsYWdiYWphQGdtYWlsLmNvbSIsIl9pc2FkbWluIjp0cnVlLCJpYXQiOjE1NjEyNzA0ODN9.HF1IZeR69O3S4ffvFbPm37tBIpUOH--Nr3DpmkDBYTI')
+        .end((err, res) => {
+          res.should.have.status(200);
+          done();
+        });
+    });
+    it('it should throw an error', (done) => {
+      request(server)
+        .delete('/api/v1/car/2767')
+        .set('x-auth-token', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOjM3LCJfZW1haWwiOiJsYWdiYWphQGdtYWlsLmNvbSIsIl9pc2FkbWluIjp0cnVlLCJpYXQiOjE1NjEyNzA0ODN9.HF1IZeR69O3S4ffvFbPm37tBIpUOH--Nr3DpmkDBYTI')
+        .end((err, res) => {
+          res.should.have.status(404);
+          done();
+        });
+    });
+  });
+  // End of DELETE Route block
+  // ***************************
 });

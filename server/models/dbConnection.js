@@ -2,8 +2,11 @@ import { Pool } from 'pg';
 import dotenv from 'dotenv';
 
 dotenv.config();
-
-/** let connectionString;
+/* const heroku = {
+  connectionString: process.env.DATABASE_URL,
+  ssl: true,
+}; */
+let connectionString;
 if (process.env.NODE_ENV === 'test') {
   connectionString = {
     user: "postgres",
@@ -21,10 +24,7 @@ if (process.env.NODE_ENV === 'test') {
     port: 5432,
   };
 }
-*/
-const dbConnection = new Pool({
-  connectionString: process.env.DATABASE_URL,
-  ssl: true,
-});
+
+const dbConnection = new Pool(connectionString);
 
 export default dbConnection;

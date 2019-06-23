@@ -45,10 +45,14 @@ class AuthControllers {
        '${address}') RETURNING *`,
     );
 
+    const {
+      id, isadmin,
+    } = user.rows[0];
+
     const token = jwt.sign({
-      _id: user.rows[0].id,
+      _id: id,
       _email: user.rows[0].email,
-      _isadmin: false,
+      _isadmin: isadmin,
     }, process.env.jwtPrivateKey);
 
     res.header('x-auth-token', token).send({

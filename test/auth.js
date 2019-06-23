@@ -11,13 +11,13 @@ use(chaiHttp);
 
 
 //  PARENT BLOCK
-describe('Authentication', () => {
+describe('Authentication baba', () => {
   // Test the /POST auth/signup route
   before(async () => {
     try {
       await dbConnection.query(`DELETE FROM users WHERE email = 'bond@gmail.com';`);
     } catch (error) {
-      console.log("Error");
+      console.log("Error koko");
     }
   });
   /** *****BEGINNING POST user signup route****** */
@@ -56,10 +56,10 @@ describe('Authentication', () => {
     });
     it('throw error if user already registered', (done) => {
       const user = {
-        email: "lagbaja@gmail.com",
-        firstname: "lagbaja",
-        lastname: "tamedu",
-        password: "testing123",
+        email: "bond@gmail.com",
+        firstname: "james",
+        lastname: "bond",
+        password: "bond007",
         address: "gasline",
       };
       request(server)
@@ -91,8 +91,8 @@ describe('Authentication', () => {
     });
     it('validation logic should kick in', (done) => {
       const user = {
-        email: "a",
-        password: "growing15",
+        email: "bond",
+        password: "bond007",
       };
       request(server)
         .post('/api/v1/auth/signin')
@@ -121,7 +121,7 @@ describe('Authentication', () => {
     });
     it('throw error if user password is wrong', (done) => {
       const user = {
-        email: "lagbaja@gmail.com",
+        email: "bond@gmail.com",
         password: "freebie34",
       };
       request(server)
