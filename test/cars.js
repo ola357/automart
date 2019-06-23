@@ -48,8 +48,8 @@ describe('car', () => {
       console.log(res.rows[0].id);
       // eslint-disable-next-line prefer-template
       parameter = '/api/v1/car/' + res.rows[0].id.toString();
-      parameter2 = '/api/v1/car/' + res.rows[0].id.toString() + 'status';
-      parameter3 = '/api/v1/car/' + res.rows[0].id.toString() + 'price';
+      parameter2 = '/api/v1/car/' + res.rows[0].id.toString() + '/status';
+      parameter3 = '/api/v1/car/' + res.rows[0].id.toString() + '/price';
     } catch (error) {
       console.log("Error blam");
     }
@@ -144,7 +144,7 @@ describe('car', () => {
     });
     it('it should throw an error wen input is invalid', (done) => {
       request(server)
-        .patch('/api/v1/car/17/status')
+        .patch(parameter2)
         .set('x-auth-token', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOjM3LCJfZW1haWwiOiJsYWdiYWphQGdtYWlsLmNvbSIsIl9pc2FkbWluIjp0cnVlLCJpYXQiOjE1NjEyNzA0ODN9.HF1IZeR69O3S4ffvFbPm37tBIpUOH--Nr3DpmkDBYTI')
         .send({
           status: 4,
@@ -162,7 +162,7 @@ describe('car', () => {
     });
     it('it should PATCH succesfully', (done) => {
       request(server)
-        .patch('/api/v1/car/17/status')
+        .patch(parameter2)
         .set('x-auth-token', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOjM3LCJfZW1haWwiOiJsYWdiYWphQGdtYWlsLmNvbSIsIl9pc2FkbWluIjp0cnVlLCJpYXQiOjE1NjEyNzA0ODN9.HF1IZeR69O3S4ffvFbPm37tBIpUOH--Nr3DpmkDBYTI')
         .send({
           status: "sold",
@@ -215,7 +215,7 @@ describe('car', () => {
   describe('/DELETE/car/:id', () => {
     it('it should DELETE succesfully', (done) => {
       request(server)
-        .delete(parameter3)
+        .delete(parameter)
         .set('x-auth-token', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOjM3LCJfZW1haWwiOiJsYWdiYWphQGdtYWlsLmNvbSIsIl9pc2FkbWluIjp0cnVlLCJpYXQiOjE1NjEyNzA0ODN9.HF1IZeR69O3S4ffvFbPm37tBIpUOH--Nr3DpmkDBYTI')
         .end((err, res) => {
           res.should.have.status(200);
