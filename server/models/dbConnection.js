@@ -2,7 +2,10 @@ import { Pool } from 'pg';
 import dotenv from 'dotenv';
 
 dotenv.config();
-
+/* const heroku = {
+  connectionString: process.env.DATABASE_URL,
+  ssl: true,
+}; */
 let connectionString;
 if (process.env.NODE_ENV === 'test') {
   connectionString = {
