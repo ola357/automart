@@ -1,4 +1,5 @@
-import Joi from '@hapi/joi';
+// import Joi from '@hapi/joi';
+import Joi from 'joi';
 
 
 class Validate {
@@ -35,7 +36,7 @@ class Validate {
 
   static createPurchaseOrder(order) {
     const schema = {
-      carid: Joi.number().required(),
+      carid: Joi.number().integer().required(),
       amount: Joi.number().required(),
     };
     return Joi.validate(order, schema);
@@ -49,8 +50,10 @@ class Validate {
   }
 
   static updateCarAdStatus(car) {
+    const exp = /^(sold|available)$/;
+    const name = "car ad's status";
     const schema = {
-      status: Joi.string().required(),
+      status: Joi.string().regex(exp, { name }).required(),
     };
     return Joi.validate(car, schema);
   }
@@ -66,7 +69,7 @@ class Validate {
     const schema = {
       carid: Joi.number().required(),
       reason: Joi.string().required(),
-      description: Joi.string(),
+      description: Joi.string().required(),
     };
     return Joi.validate(car, schema);
   }

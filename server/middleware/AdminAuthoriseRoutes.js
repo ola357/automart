@@ -1,8 +1,8 @@
 class AdminAuthoriseRoutes {
   static authenticate(req, res, next) {
-    /* if (Object.keys(req.query).length !== 0) {
-      next();
-    } else  */
+    if (Object.keys(req.query).length !== 0) {
+      return next();
+    }
     if (!req.user._isadmin) {
       res.status(403).send({
         status: 403,
