@@ -36,7 +36,6 @@ class AuthControllers {
         error: "user already exists",
       });
     }
-
     // hash password and save data to database
     const hashpassword = await bcrypt.hash(password, 10);
     user = await dbConnection.query(
@@ -76,11 +75,10 @@ class AuthControllers {
     if (error) return res.status(400).send({ status: 400, error: error.details[0].message });
 
     const { email, password } = req.body;
-
+    // query the database
     const user = await dbConnection.query(
       'SELECT * FROM users WHERE email = ($1)', [email],
     );
-    // console.log(user);
     if (user.rowCount !== 1) return res.status(400).send({ status: 400, error: "invalid email or password" });
 
     const validPassword = await bcrypt.compare(password, user.rows[0].password);

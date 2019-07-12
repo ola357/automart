@@ -40,12 +40,20 @@ class CarsController {
     try {
       Validateparams.evaluate(req.params.carId);
     } catch (error) {
-      return res.status(404).send({
+      return res.status(400).send({
         status: 400,
         error: "Invalid request",
       });
     }
-
+    // check if user is the owner of car ad
+    try {
+      const { rowCount } = await dbConnection.query(`SELECT owner FROM cars
+      WHERE owner = ($1);`,
+      [req.user._id]);
+      if (rowCount === 0) return res.status(401).send({ status: 401, error: "you can't change ad's status" });
+    } catch (error) {
+      return res.status(500).send({ status: 500, error: "can't access database server" });
+    }
     // validate request body
     const { error } = validate.updateCarAdStatus(req.body);
     if (error) {
@@ -64,25 +72,29 @@ class CarsController {
       RETURNING *`,
       [status, req.params.carId],
     );
-
+    const { rowCount, rows } = car;
     // if car doesn't exist
-    if ((car.rowCount === 0)) {
+    if (rowCount === 0) {
       return res.status(404).send({
         status: 404,
         error: "The car with the given ID was not found.",
       });
     }
+    // on success
+    const {
+      id, createdon, manufacturer, model, price, state,
+    } = rows[0];
     res.status(200).send({
       status: 200,
       data: {
-        id: car.rows[0].id,
+        id,
         email: req.user._email,
-        createdOn: car.rows[0].createdon,
-        manufacturer: car.rows[0].manufacturer,
-        model: car.rows[0].model,
-        price: car.rows[0].price,
-        state: car.rows[0].state,
-        status: car.rows[0].status,
+        createdon,
+        manufacturer,
+        model,
+        price,
+        state,
+        status: rows[0].status,
       },
     });
   }
@@ -92,12 +104,21 @@ class CarsController {
     try {
       Validateparams.evaluate(req.params.carId);
     } catch (error) {
-      return res.status(404).send({
+      return res.status(400).send({
         status: 400,
         error: "Invalid request",
       });
     }
-
+    // check if user is the owner of car ad
+    const { _id, _email } = req.user;
+    try {
+      const { rowCount } = await dbConnection.query(`SELECT owner FROM cars
+      WHERE owner = ($1);`,
+      [_id]);
+      if (rowCount === 0) return res.status(401).send({ status: 401, error: "you can't change ad's status" });
+    } catch (error) {
+      return res.status(500).send({ status: 500, error: "can't access database server" });
+    }
     // validate request body
     const { error } = validate.updateCarAdPrice(req.body);
     if (error) {
@@ -106,50 +127,46 @@ class CarsController {
         error: error.details[0].message,
       });
     }
-
+    // update/query database
     const { price } = req.body;
-    let car;
-    try {
-      await dbConnection.query('BEGIN');
-      car = await dbConnection.query(
-        `UPDATE cars
+
+    const car = await dbConnection.query(
+      `UPDATE cars
         SET price = ($1)
         WHERE id = ($2)
         RETURNING *`,
-        [price, req.params.carId],
-      );
-      // if car doesn't exist
-      if ((car.rowCount === 0)) {
-        return res.status(404).send({
-          status: 404,
-          error: "The car with the given ID was not found.",
-        });
-      }
-      // if car is already sold
-      if ((car.rows[0].status === 'sold')) {
-        throw new Error('car already sold');
-      }
-      await dbConnection.query('COMMIT');
-    } catch (err) {
-      await dbConnection.query('ROLLBACK');
+      [price, req.params.carId],
+    );
+    const { rows, rowCount } = car;
+    // if car doesn't exist
+    if ((rowCount === 0)) {
       return res.status(404).send({
         status: 404,
-        error: "You can't update a sold car's price",
+        error: "The car with the given ID was not found.",
       });
     }
-
-
+    // if car is already sold
+    if ((rows[0].status === 'sold')) {
+      return res.status(403).send({
+        status: 403,
+        error: "can't update price, car has been sold",
+      });
+    }
+    // on success, car hasn't been sold
+    const {
+      id, createdon, manufacturer, model, state, status,
+    } = rows[0];
     res.status(200).send({
       status: 200,
       data: {
-        id: car.rows[0].id,
-        email: req.user._email,
-        createdOn: car.rows[0].createdon,
-        manufacturer: car.rows[0].manufacturer,
-        model: car.rows[0].model,
-        price: car.rows[0].price,
-        state: car.rows[0].state,
-        status: car.rows[0].status,
+        id,
+        email: _email,
+        createdon,
+        manufacturer,
+        model,
+        price: rows[0].price,
+        state,
+        status,
       },
     });
   }
@@ -158,7 +175,7 @@ class CarsController {
     try {
       Validateparams.evaluate(req.params.carId);
     } catch (error) {
-      return res.status(404).send({
+      return res.status(400).send({
         status: 400,
         error: "Invalid request",
       });

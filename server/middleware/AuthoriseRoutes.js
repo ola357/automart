@@ -5,7 +5,9 @@ dotenv.config();
 
 class AuthoriseRoutes {
   static protect(req, res, next) {
-    // if (Object.keys(req.query).length !== 0) { next(); }
+    if (Object.keys(req.query).length !== 0) {
+      return next();
+    }
     const token = req.header('x-auth-token');
     if (!token) {
       return res.status(401).send({
