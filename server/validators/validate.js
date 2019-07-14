@@ -6,8 +6,8 @@ class Validate {
   static userSignup(user) {
     const schema = {
       email: Joi.string().email().required(),
-      firstname: Joi.string().required(),
-      lastname: Joi.string().required(),
+      first_name: Joi.string().required(),
+      last_name: Joi.string().required(),
       password: Joi.string().alphanum().required(),
       address: Joi.string().alphanum().required(),
     };
@@ -24,19 +24,21 @@ class Validate {
 
   static createCarAd(car) {
     const schema = {
+      token: Joi.string(),
       state: Joi.string().required(),
       status: Joi.string().required(),
       price: Joi.number().required(),
       manufacturer: Joi.string().required(),
       model: Joi.string().required(),
-      bodytype: Joi.string().required(),
+      body_type: Joi.string().required(),
     };
     return Joi.validate(car, schema);
   }
 
   static createPurchaseOrder(order) {
     const schema = {
-      carid: Joi.number().integer().required(),
+      token: Joi.string(),
+      car_id: Joi.number().integer().required(),
       amount: Joi.number().required(),
     };
     return Joi.validate(order, schema);
@@ -44,6 +46,7 @@ class Validate {
 
   static updateOrderPrice(order) {
     const schema = {
+      token: Joi.string(),
       amount: Joi.number().required(),
     };
     return Joi.validate(order, schema);
@@ -53,6 +56,7 @@ class Validate {
     const exp = /^(sold|available)$/;
     const name = "car ad's status";
     const schema = {
+      token: Joi.string(),
       status: Joi.string().regex(exp, { name }).required(),
     };
     return Joi.validate(car, schema);
@@ -60,6 +64,7 @@ class Validate {
 
   static updateCarAdPrice(car) {
     const schema = {
+      token: Joi.string(),
       price: Joi.number().required(),
     };
     return Joi.validate(car, schema);
@@ -67,6 +72,7 @@ class Validate {
 
   static flagCarAd(car) {
     const schema = {
+      token: Joi.string(),
       carid: Joi.number().required(),
       reason: Joi.string().required(),
       description: Joi.string().required(),

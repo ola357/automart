@@ -18,8 +18,8 @@ describe('CREATE NEW USERS', () => {
     specify('it should signup a new user(seller)', (done) => {
       const user = {
         email: "seller@gmail.com",
-        firstname: "seller",
-        lastname: "seller",
+        first_name: "seller",
+        last_name: "seller",
         password: "seller007",
         address: "gasline",
       };
@@ -38,8 +38,8 @@ describe('CREATE NEW USERS', () => {
     specify('it should signup a new user(buyer)', (done) => {
       const user = {
         email: "buyer@gmail.com",
-        firstname: "buyer",
-        lastname: "buyer",
+        first_name: "buyer",
+        last_name: "buyer",
         password: "buyer007",
         address: "gasline",
       };
@@ -60,11 +60,11 @@ describe('CREATE NEW USERS', () => {
         price: 444477,
         manufacturer: "cccc",
         model: "dddd",
-        bodytype: "hatchback",
+        body_type: "hatchback",
       };
       request(server)
         .post('/api/v1/car')
-        .set('x-auth-token', sellertoken)
+        .set('token', sellertoken)
         .send(car)
         .end((err, res) => {
           res.should.have.status(200);
@@ -97,7 +97,7 @@ describe('POST FLAGS ENDPOINT', () => {
       request(server)
         .post('/api/v1/flag')
         .send({ carid: vehicleid, reason: 'a', description: 'b' })
-        .set('x-auth-token', 'jdhjwFWAVWAV;OAWNV;J')
+        .set('token', 'jdhjwFWAVWAV;OAWNV;J')
         .end((err, res) => {
           res.should.have.status(400);
           done();
@@ -107,7 +107,7 @@ describe('POST FLAGS ENDPOINT', () => {
       request(server)
         .post('/api/v1/flag')
         .send({ carid: vehicleid, reason: 1, description: 'b' })
-        .set('x-auth-token', buyertoken)
+        .set('token', buyertoken)
         .end((err, res) => {
           res.should.have.status(400);
           done();
@@ -117,7 +117,7 @@ describe('POST FLAGS ENDPOINT', () => {
       request(server)
         .post('/api/v1/flag')
         .send({ carid: vehicleid, reason: 'a', description: 'b' })
-        .set('x-auth-token', sellertoken)
+        .set('token', sellertoken)
         .end((err, res) => {
           res.should.have.status(403);
           done();
@@ -127,9 +127,19 @@ describe('POST FLAGS ENDPOINT', () => {
       request(server)
         .post('/api/v1/flag')
         .send({ carid: vehicleid, reason: 'a', description: 'b' })
-        .set('x-auth-token', buyertoken)
+        .set('token', buyertoken)
         .end((err, res) => {
           res.should.have.status(200);
+          done();
+        });
+    });
+    it('should throw error when input in body is wrong', (done) => {
+      request(server)
+        .post('/api/v1/flag')
+        .send({ carid: 0, reason: 'a', description: 'b' })
+        .set('token', buyertoken)
+        .end((err, res) => {
+          res.should.have.status(500);
           done();
         });
     });

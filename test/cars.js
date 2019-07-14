@@ -25,8 +25,8 @@ describe('CREATE NEW USERS', () => {
     specify('it should signup a new user(seller)', (done) => {
       const user = {
         email: "seller@gmail.com",
-        firstname: "seller",
-        lastname: "seller",
+        first_name: "seller",
+        last_name: "seller",
         password: "seller007",
         address: "gasline",
       };
@@ -41,8 +41,8 @@ describe('CREATE NEW USERS', () => {
     specify('it should signup a new user(admin)', (done) => {
       const user = {
         email: "admin@gmail.com",
-        firstname: "admin",
-        lastname: "admin",
+        first_name: "admin",
+        last_name: "admin",
         password: "admin007",
         address: "gasline",
       };
@@ -108,7 +108,7 @@ describe('Car Routes', () => {
         price: 444455,
         manufacturer: "aaaa",
         model: "bbbb",
-        bodytype: "sport",
+        body_type: "sport",
       };
       request(server)
         .post('/api/v1/car')
@@ -125,11 +125,11 @@ describe('Car Routes', () => {
         price: 444455,
         manufacturer: "aaaa",
         model: "bbbb",
-        bodytype: "sport",
+        body_type: "sport",
       };
       request(server)
         .post('/api/v1/car')
-        .set('x-auth-token', 'vxsgsacvscvasvc')
+        .set('token', 'vxsgsacvscvasvc')
         .send(car)
         .end((err, res) => {
           res.should.have.status(400);
@@ -143,11 +143,11 @@ describe('Car Routes', () => {
         price: 444455,
         manufacturer: "aaaa",
         model: "bbbb",
-        bodytype: "sport",
+        body_type: "sport",
       };
       request(server)
         .post('/api/v1/car')
-        .set('x-auth-token', sellertoken)
+        .set('token', sellertoken)
         .send(car)
         .end((err, res) => {
           res.should.have.status(200);
@@ -173,7 +173,7 @@ describe('Car Routes', () => {
       request(server)
         .patch(patchRoute)
         .send({ status: 'sold' })
-        .set('x-auth-token', 'jdhjwFWAVWAV;OAWNV;J')
+        .set('token', 'jdhjwFWAVWAV;OAWNV;J')
         .end((err, res) => {
           res.should.have.status(400);
           done();
@@ -184,7 +184,7 @@ describe('Car Routes', () => {
       request(server)
         .patch(patchRoute)
         .send({ status: 'sold' })
-        .set('x-auth-token', sellertoken)
+        .set('token', sellertoken)
         .end((err, res) => {
           res.should.have.status(400);
           done();
@@ -195,7 +195,7 @@ describe('Car Routes', () => {
       request(server)
         .patch(patchRoute)
         .send({ status: 'sold' })
-        .set('x-auth-token', admintoken)
+        .set('token', admintoken)
         .end((err, res) => {
           res.should.have.status(401);
           done();
@@ -206,7 +206,7 @@ describe('Car Routes', () => {
       request(server)
         .patch(patchRoute)
         .send({ status: '#$%^&&*sdg' })
-        .set('x-auth-token', sellertoken)
+        .set('token', sellertoken)
         .end((err, res) => {
           res.should.have.status(400);
           done();
@@ -217,7 +217,7 @@ describe('Car Routes', () => {
       request(server)
         .patch(patchRoute)
         .send({ status: 'sold' })
-        .set('x-auth-token', sellertoken)
+        .set('token', sellertoken)
         .end((err, res) => {
           res.should.have.status(404);
           done();
@@ -228,7 +228,7 @@ describe('Car Routes', () => {
       request(server)
         .patch(patchRoute)
         .send({ status: 'sold' })
-        .set('x-auth-token', sellertoken)
+        .set('token', sellertoken)
         .end((err, res) => {
           res.should.have.status(200);
           done();
@@ -252,7 +252,7 @@ describe('Car Routes', () => {
       request(server)
         .patch(patchRoute)
         .send({ price: 123456 })
-        .set('x-auth-token', 'jdhjwFWAVWAV;OAWNV;J')
+        .set('token', 'jdhjwFWAVWAV;OAWNV;J')
         .end((err, res) => {
           res.should.have.status(400);
           done();
@@ -263,7 +263,7 @@ describe('Car Routes', () => {
       request(server)
         .patch(patchRoute)
         .send({ price: 123456 })
-        .set('x-auth-token', sellertoken)
+        .set('token', sellertoken)
         .end((err, res) => {
           res.should.have.status(400);
           done();
@@ -274,7 +274,7 @@ describe('Car Routes', () => {
       request(server)
         .patch(patchRoute)
         .send({ price: 123456 })
-        .set('x-auth-token', admintoken)
+        .set('token', admintoken)
         .end((err, res) => {
           res.should.have.status(401);
           done();
@@ -285,7 +285,7 @@ describe('Car Routes', () => {
       request(server)
         .patch(patchRoute)
         .send({ price: 'availale' })
-        .set('x-auth-token', sellertoken)
+        .set('token', sellertoken)
         .end((err, res) => {
           res.should.have.status(400);
           done();
@@ -296,7 +296,7 @@ describe('Car Routes', () => {
       request(server)
         .patch(patchRoute)
         .send({ price: 123456 })
-        .set('x-auth-token', sellertoken)
+        .set('token', sellertoken)
         .end((err, res) => {
           res.should.have.status(404);
           done();
@@ -307,7 +307,7 @@ describe('Car Routes', () => {
       request(server)
         .patch(patchRoute)
         .send({ price: 123456 })
-        .set('x-auth-token', sellertoken)
+        .set('token', sellertoken)
         .end((err, res) => {
           res.should.have.status(403);
           done();
@@ -319,7 +319,7 @@ describe('Car Routes', () => {
       request(server)
         .patch(patchRoute)
         .send({ price: 123456 })
-        .set('x-auth-token', sellertoken)
+        .set('token', sellertoken)
         .end((err, res) => {
           res.should.have.status(200);
           done();
@@ -331,6 +331,7 @@ describe('Car Routes', () => {
     it('should return error if invalid parameter id', (done) => {
       request(server)
         .get('/api/v1/car/a')
+        .set('token', sellertoken)
         .end((err, res) => {
           res.should.have.status(400);
           done();
@@ -339,6 +340,7 @@ describe('Car Routes', () => {
     it('return error if car is not available', (done) => {
       request(server)
         .get('/api/v1/car/9998')
+        .set('token', sellertoken)
         .end((err, res) => {
           res.should.have.status(404);
           done();
@@ -348,6 +350,7 @@ describe('Car Routes', () => {
       parameter = '/api/v1/car/' + vehicleid;
       request(server)
         .get(parameter)
+        .set('token', sellertoken)
         .end((err, res) => {
           res.should.have.status(200);
           done();
@@ -368,7 +371,7 @@ describe('Car Routes', () => {
     it('should return error when token is invalid', (done) => {
       request(server)
         .get('/api/v1/car')
-        .set('x-auth-token', 'cvsjdcuaUUUIhvcjcjkcjacjkc')
+        .set('token', 'cvsjdcuaUUUIhvcjcjkcjacjkc')
         .end((err, res) => {
           res.should.have.status(400);
           done();
@@ -377,7 +380,7 @@ describe('Car Routes', () => {
     it('should return error when user is not an admin', (done) => {
       request(server)
         .get('/api/v1/car')
-        .set('x-auth-token', sellertoken)
+        .set('token', sellertoken)
         .end((err, res) => {
           res.should.have.status(403);
           done();
@@ -386,7 +389,7 @@ describe('Car Routes', () => {
     it('should return an array of all cars', (done) => {
       request(server)
         .get('/api/v1/car')
-        .set('x-auth-token', admintoken)
+        .set('token', admintoken)
         .end((err, res) => {
           res.should.have.status(200);
           done();
@@ -396,6 +399,7 @@ describe('Car Routes', () => {
       request(server)
         .get('/api/v1/car')
         .query({ status: 'availale' })
+        .set('token', sellertoken)
         .end((err, res) => {
           res.should.have.status(200);
           done();
@@ -404,7 +408,8 @@ describe('Car Routes', () => {
     it('should return array of cars filtered by STATUS & PRICE', (done) => {
       request(server)
         .get('/api/v1/car')
-        .query({ status: 'availale', minPrice: 500, maxPrice: 5000000000 })
+        .query({ status: 'availale', min_price: 500, max_price: 5000000000 })
+        .set('token', sellertoken)
         .end((err, res) => {
           res.should.have.status(200);
           done();
@@ -414,6 +419,7 @@ describe('Car Routes', () => {
       request(server)
         .get('/api/v1/car')
         .query({ status: 'availale', state: 'used' })
+        .set('token', sellertoken)
         .end((err, res) => {
           res.should.have.status(200);
           done();
@@ -423,6 +429,7 @@ describe('Car Routes', () => {
       request(server)
         .get('/api/v1/car')
         .query({ status: 'availale', manufacturer: 'aaaa' })
+        .set('token', sellertoken)
         .end((err, res) => {
           res.should.have.status(200);
           done();
@@ -431,7 +438,8 @@ describe('Car Routes', () => {
     it('should return array of cars filtered by BODYTYPE', (done) => {
       request(server)
         .get('/api/v1/car')
-        .query({ bodytype: 'sports' })
+        .query({ body_type: 'sports' })
+        .set('token', sellertoken)
         .end((err, res) => {
           res.should.have.status(200);
           done();
@@ -440,7 +448,8 @@ describe('Car Routes', () => {
     it('should return error when query parameters are not taken of', (done) => {
       request(server)
         .get('/api/v1/car')
-        .query({ bodytype: 'sports', status: 'availale', manufacturer: 'aaaa' })
+        .query({ body_type: 'sports', status: 'availale', manufacturer: 'aaaa' })
+        .set('token', sellertoken)
         .end((err, res) => {
           res.should.have.status(404);
           done();
@@ -469,7 +478,7 @@ describe('Car Routes', () => {
     it('it should DELETE succesfully', (done) => {
       request(server)
         .delete(parameter)
-        .set('x-auth-token', admintoken)
+        .set('token', admintoken)
         .end((err, res) => {
           res.should.have.status(200);
           done();

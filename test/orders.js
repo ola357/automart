@@ -28,8 +28,8 @@ describe('CREATE NEW USERS', () => {
     specify('it should signup a new user(seller)', (done) => {
       const user = {
         email: "seller@gmail.com",
-        firstname: "seller",
-        lastname: "seller",
+        first_name: "seller",
+        last_name: "seller",
         password: "seller007",
         address: "gasline",
       };
@@ -48,8 +48,8 @@ describe('CREATE NEW USERS', () => {
     specify('it should signup a new user(buyer)', (done) => {
       const user = {
         email: "buyer@gmail.com",
-        firstname: "buyer",
-        lastname: "buyer",
+        first_name: "buyer",
+        last_name: "buyer",
         password: "buyer007",
         address: "gasline",
       };
@@ -70,11 +70,11 @@ describe('CREATE NEW USERS', () => {
         price: 444477,
         manufacturer: "cccc",
         model: "dddd",
-        bodytype: "hatchback",
+        body_type: "hatchback",
       };
       request(server)
         .post('/api/v1/car')
-        .set('x-auth-token', sellertoken)
+        .set('token', sellertoken)
         .send(car)
         .end((err, res) => {
           res.should.have.status(200);
@@ -97,7 +97,7 @@ describe('ORDERS Route', () => {
     it('return error if token is missing', (done) => {
       request(server)
         .post('/api/v1/order')
-        .send({ carid: vehicleid, amount: 1234567890 })
+        .send({ car_id: vehicleid, amount: 1234567890 })
         .end((err, res) => {
           res.should.have.status(401);
           done();
@@ -106,8 +106,8 @@ describe('ORDERS Route', () => {
     it('returns error if wrong token provided', (done) => {
       request(server)
         .post('/api/v1/order')
-        .send({ carid: vehicleid, amount: 1234567890 })
-        .set('x-auth-token', 'jdhjwFWAVWAV;OAWNV;J')
+        .send({ car_id: vehicleid, amount: 1234567890 })
+        .set('token', 'jdhjwFWAVWAV;OAWNV;J')
         .end((err, res) => {
           res.should.have.status(400);
           done();
@@ -116,8 +116,8 @@ describe('ORDERS Route', () => {
     it('returns error if request is invalid', (done) => {
       request(server)
         .post('/api/v1/order')
-        .send({ carid: vehicleid, amount: '50,000' })
-        .set('x-auth-token', buyertoken)
+        .send({ car_id: vehicleid, amount: '50,000' })
+        .set('token', buyertoken)
         .end((err, res) => {
           res.should.have.status(400);
           done();
@@ -126,8 +126,8 @@ describe('ORDERS Route', () => {
     it('returns error if request is from user who put up ad', (done) => {
       request(server)
         .post('/api/v1/order')
-        .set('x-auth-token', sellertoken)
-        .send({ carid: vehicleid, amount: 1234567 })
+        .set('token', sellertoken)
+        .send({ car_id: vehicleid, amount: 1234567 })
         .end((err, res) => {
           res.should.have.status(403);
           done();
@@ -136,8 +136,8 @@ describe('ORDERS Route', () => {
     it('create a new purchase order', (done) => {
       request(server)
         .post('/api/v1/order')
-        .set('x-auth-token', buyertoken)
-        .send({ carid: vehicleid, amount: 1234567 })
+        .set('token', buyertoken)
+        .send({ car_id: vehicleid, amount: 1234567 })
         .end((err, res) => {
           orderId = res.body.data.id;
           console.log(orderId);
@@ -163,7 +163,7 @@ describe('ORDERS Route', () => {
       request(server)
         .patch(patchPath)
         .send({ amount: 1234567890 })
-        .set('x-auth-token', 'jdhjwFWAVWAV;OAWNV;J')
+        .set('token', 'jdhjwFWAVWAV;OAWNV;J')
         .end((err, res) => {
           res.should.have.status(400);
           done();
@@ -174,7 +174,7 @@ describe('ORDERS Route', () => {
       request(server)
         .patch(patchPath)
         .send({ amount: 9856789 })
-        .set('x-auth-token', buyertoken)
+        .set('token', buyertoken)
         .end((err, res) => {
           res.should.have.status(400);
           done();
@@ -185,7 +185,7 @@ describe('ORDERS Route', () => {
       request(server)
         .patch(patchPath)
         .send({ amount: 23456 })
-        .set('x-auth-token', sellertoken)
+        .set('token', sellertoken)
         .end((err, res) => {
           res.should.have.status(403);
           done();
@@ -196,7 +196,7 @@ describe('ORDERS Route', () => {
       request(server)
         .patch(patchPath)
         .send({ amount: 23456 })
-        .set('x-auth-token', buyertoken)
+        .set('token', buyertoken)
         .end((err, res) => {
           res.should.have.status(404);
           done();
@@ -207,7 +207,7 @@ describe('ORDERS Route', () => {
       request(server)
         .patch(patchPath)
         .send({ amount: '20,000' })
-        .set('x-auth-token', buyertoken)
+        .set('token', buyertoken)
         .end((err, res) => {
           res.should.have.status(400);
           done();
@@ -218,7 +218,7 @@ describe('ORDERS Route', () => {
       request(server)
         .patch(patchPath)
         .send({ amount: 200000.00 })
-        .set('x-auth-token', buyertoken)
+        .set('token', buyertoken)
         .end((err, res) => {
           res.should.have.status(200);
           done();
@@ -230,7 +230,7 @@ describe('ORDERS Route', () => {
       request(server)
         .patch(patchPath)
         .send({ amount: 2090000.00 })
-        .set('x-auth-token', buyertoken)
+        .set('token', buyertoken)
         .end((err, res) => {
           res.should.have.status(404);
           done();

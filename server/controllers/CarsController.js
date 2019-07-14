@@ -9,7 +9,7 @@ class CarsController {
     if (error) return res.status(400).send({ status: 400, error: error.details[0].message });
 
     const {
-      state, status, price, manufacturer, model, bodytype,
+      state, status, price, manufacturer, model, body_type: bodytype,
     } = req.body;
     const owner = req.user._id;
     const email = req.user._email;
@@ -25,7 +25,7 @@ class CarsController {
       data: {
         id: car.rows[0].id,
         email,
-        createdon: car.rows[0].createdon,
+        created_on: car.rows[0].createdon,
         manufacturer: car.rows[0].manufacturer,
         model: car.rows[0].model,
         price: car.rows[0].price,
@@ -89,7 +89,7 @@ class CarsController {
       data: {
         id,
         email: req.user._email,
-        createdon,
+        created_on: createdon,
         manufacturer,
         model,
         price,
@@ -161,7 +161,7 @@ class CarsController {
       data: {
         id,
         email: _email,
-        createdon,
+        created_on: createdon,
         manufacturer,
         model,
         price: rows[0].price,
@@ -200,13 +200,13 @@ class CarsController {
       data: [{
         id,
         owner,
-        createdOn,
+        created_on: createdOn,
         state,
         status,
         price,
         manufacturer,
         model,
-        bodytype,
+        body_type: bodytype,
       }],
     });
   }
@@ -214,7 +214,7 @@ class CarsController {
   static async getCars(req, res) {
     const query = Object.keys(req.query).sort();
     const {
-      status, minPrice, maxPrice, state, manufacturer, bodytype,
+      status, min_price: minPrice, max_price: maxPrice, state, manufacturer, body_type: bodytype,
     } = req.query;
 
     if (Compare.equality(query, [])) {
@@ -234,7 +234,7 @@ class CarsController {
         status: 200,
         data: result.rows,
       });
-    } else if (Compare.equality(query, ['maxPrice', 'minPrice', 'status'])) {
+    } else if (Compare.equality(query, ['max_price', 'min_price', 'status'])) {
       /* GET /cars?status=value&minPrice=xxxValue&maxPrice=xxxValue */
       const result = await dbConnection.query(
         `SELECT * FROM cars WHERE status = ($1)
@@ -268,7 +268,7 @@ class CarsController {
         status: 200,
         data: result.rows,
       });
-    } else if (Compare.equality(query, ['bodytype'])) {
+    } else if (Compare.equality(query, ['body_type'])) {
       /* GET /cars?body=value */
       const result = await dbConnection.query(
         `SELECT * FROM cars WHERE bodytype = ($1)`,
