@@ -7,6 +7,7 @@ import auth from './routes/auth';
 import cars from './routes/cars';
 import orders from './routes/orders';
 import flags from './routes/flags';
+import control from './routes/control';
 import swaggerDoc from '../swagger';
 import createTables from './models/createTables';
 import error from './middleware/error';
@@ -23,6 +24,7 @@ app.use('/api/v1/auth', auth);
 app.use('/api/v1/car', cars);
 app.use('/api/v1/order', orders);
 app.use('/api/v1/flag', flags);
+app.use('/', control);
 app.use(error);
 
 const port = process.env.PORT || 5000;

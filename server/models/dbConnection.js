@@ -6,6 +6,7 @@ dotenv.config();
   connectionString: process.env.DATABASE_URL,
   ssl: true,
 }; */
+
 let connectionString;
 if (process.env.NODE_ENV === 'test') {
   connectionString = {
@@ -25,6 +26,7 @@ if (process.env.NODE_ENV === 'test') {
   };
 }
 
+// const dbConnection = new Pool(heroku);
 const dbConnection = new Pool(connectionString);
 
 export default dbConnection;
