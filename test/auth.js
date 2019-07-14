@@ -21,8 +21,8 @@ describe('/POST auth/signup', () => {
   it('should NOT signup when bad values are inputed', (done) => {
     const user = {
       email: "admincom",
-      firstname: "admin",
-      lastname: "admin",
+      first_name: "admin",
+      last_name: "admin",
       password: "admin007",
       address: "gasline",
     };
@@ -37,8 +37,8 @@ describe('/POST auth/signup', () => {
   it('it should signup a new user(seller)', (done) => {
     const user = {
       email: "seller@gmail.com",
-      firstname: "seller",
-      lastname: "seller",
+      first_name: "seller",
+      last_name: "seller",
       password: "seller007",
       address: "gasline",
     };
@@ -53,8 +53,8 @@ describe('/POST auth/signup', () => {
   it('it should NOT signup if user is already registered', (done) => {
     const user = {
       email: "seller@gmail.com",
-      firstname: "seller",
-      lastname: "seller",
+      first_name: "seller",
+      last_name: "seller",
       password: "seller007",
       address: "gasline",
     };

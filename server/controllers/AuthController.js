@@ -23,7 +23,7 @@ class AuthControllers {
       });
     }
     const {
-      email, firstname, lastname, password, address,
+      email, first_name: firstname, last_name: lastname, password, address,
     } = req.body;
 
     // check if user is already registered
@@ -54,10 +54,14 @@ class AuthControllers {
       _isadmin: isadmin,
     }, process.env.jwtPrivateKey);
 
-    res.header('x-auth-token', token).send({
+    res.header('token', token).send({
       status: 200,
       data: {
-        token, id: user.rows[0].id, firstname, lastname, email,
+        token,
+        id: user.rows[0].id,
+        first_name: firstname,
+        last_name: lastname,
+        email,
       },
     });
   }
@@ -98,7 +102,11 @@ class AuthControllers {
     res.send({
       status: 200,
       data: {
-        token, id, firstname, lastname, email,
+        token,
+        id,
+        first_name: firstname,
+        last_name: lastname,
+        email,
       },
     });
   }

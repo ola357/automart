@@ -1,4 +1,5 @@
 import '@babel/polyfill';
+import 'express-async-errors';
 import express, { json, urlencoded } from 'express';
 import swaggerUI from 'swagger-ui-express';
 import dotenv from 'dotenv';
@@ -8,6 +9,7 @@ import orders from './routes/orders';
 import flags from './routes/flags';
 import swaggerDoc from '../swagger';
 import createTables from './models/createTables';
+import error from './middleware/error';
 
 const app = express();
 dotenv.config();
@@ -21,6 +23,7 @@ app.use('/api/v1/auth', auth);
 app.use('/api/v1/car', cars);
 app.use('/api/v1/order', orders);
 app.use('/api/v1/flag', flags);
+app.use(error);
 
 const port = process.env.PORT || 5000;
 
