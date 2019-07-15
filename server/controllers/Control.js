@@ -34,9 +34,9 @@ class Control {
   static async makeAdmin(req, res) {
     const { email } = req.body;
     const { rows } = await dbConnection.query(
-      `UPDATE users SET isadmin = true WHERE email = ($1);
+      `UPDATE users SET isadmin = ($1) WHERE email = ($2)
       RETURNING *`,
-      [email],
+      [true, email],
     );
     res.status(201).send({
       status: 201,
