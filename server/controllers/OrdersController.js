@@ -51,7 +51,7 @@ class OrdersController {
   }
 
   static async updateOrderPrice(req, res) {
-    console.log(req.body);
+    console.log("gogolo", req.body, "pepenefe");
     // validate request parameter
     try {
       Validateparams.evaluate(req.params.orderId);
@@ -88,7 +88,7 @@ class OrdersController {
     const { error } = validate.updateOrderPrice(req.body);
     if (error) return res.status(400).send({ status: 400, error: error.details[0].message });
     */
-    const { amount } = req.body;
+    const { price: amount } = req.body;
 
     // check if car is available
     const carStatus = await dbConnection.query(
