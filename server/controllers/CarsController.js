@@ -1,5 +1,5 @@
 import validate from '../validators/validate';
-import Validateparams from '../validators/ValidateParams';
+// import Validateparams from '../validators/ValidateParams';
 import Compare from '../util/Compare';
 import dbConnection from '../models/dbConnection';
 
@@ -37,6 +37,7 @@ class CarsController {
   }
 
   static async updateCarAdStatus(req, res) {
+    /*
     // validate request parameter
     try {
       Validateparams.evaluate(req.params.carId);
@@ -46,6 +47,7 @@ class CarsController {
         error: "Invalid request",
       });
     }
+    */
     // check if user is the owner of car ad
     try {
       const { rowCount } = await dbConnection.query(`SELECT owner FROM cars
@@ -101,6 +103,7 @@ class CarsController {
   }
 
   static async updateCarAdPrice(req, res) {
+    /*
     // validate request parameter
     try {
       Validateparams.evaluate(req.params.carId);
@@ -110,6 +113,7 @@ class CarsController {
         error: "Invalid request",
       });
     }
+    */
     // check if user is the owner of car ad
     const { _id, _email } = req.user;
     try {
