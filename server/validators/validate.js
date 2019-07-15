@@ -5,7 +5,7 @@ import Joi from 'joi';
 class Validate {
   static userSignup(user) {
     const schema = {
-      email: Joi.string().email(),
+      email: Joi.string(),
       first_name: Joi.string(),
       last_name: Joi.string(),
       password: Joi.string(),
