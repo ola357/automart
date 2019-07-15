@@ -16,7 +16,7 @@ router.post('/', AuthoriseRoutes.protect, CarsController.createCarAd);
 router.patch('/:carId/status', AuthoriseRoutes.protect, CarsController.updateCarAdStatus);
 router.patch('/:carId/price', AuthoriseRoutes.protect, CarsController.updateCarAdPrice);
 router.get('/:carId', AuthoriseRoutes.protect, CarsController.getSpecificCar);
-router.get('/', [AuthoriseRoutes.protect, AdminAuthoriseRoutes.authenticate], CarsController.getCars);
+router.get('/', AuthoriseRoutes.protect, CarsController.getCars);
 router.delete('/:carId', [AuthoriseRoutes.protect, AdminAuthoriseRoutes.authenticate],
   CarsController.deleteSpecificCarAd);
 router.post('/testing', upload.single('images'), (req, res) => {
