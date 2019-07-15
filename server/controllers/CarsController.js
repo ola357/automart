@@ -5,9 +5,10 @@ import dbConnection from '../models/dbConnection';
 
 class CarsController {
   static async createCarAd(req, res) {
+    /*
     const { error } = validate.createCarAd(req.body);
     if (error) return res.status(400).send({ status: 400, error: error.details[0].message });
-
+    */
     const {
       state, status, price, manufacturer, model, body_type: bodytype,
     } = req.body;
