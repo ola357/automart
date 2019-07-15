@@ -8,8 +8,8 @@ class Validate {
       email: Joi.string().email().required(),
       first_name: Joi.string().required(),
       last_name: Joi.string().required(),
-      password: Joi.string().alphanum().required(),
-      address: Joi.string().alphanum().required(),
+      password: Joi.string().required(),
+      address: Joi.string().required(),
     };
     return Joi.validate(user, schema);
   }
