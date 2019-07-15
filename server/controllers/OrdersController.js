@@ -9,6 +9,7 @@ class OrdersController {
     if (error) return res.status(400).send({ status: 400, error: error.details[0].message });
     */
     const { car_id: carid, amount } = req.body;
+    /*
     const { rowCount } = await dbConnection.query(
       `SELECT * FROM cars WHERE id = ($1)
       AND owner = ( $2)`,
@@ -21,7 +22,7 @@ class OrdersController {
         error: "You can't buy your own car!",
       });
     }
-
+    */
     const order = await dbConnection.query(
       `INSERT INTO orders(
         buyer, carid, amount) 
