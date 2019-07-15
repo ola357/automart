@@ -1,4 +1,4 @@
-import validate from '../validators/validate';
+// import validate from '../validators/validate';
 // import Validateparams from '../validators/ValidateParams';
 import dbConnection from '../models/dbConnection';
 
@@ -84,10 +84,11 @@ class OrdersController {
         error: "You didn't make this order.",
       });
     }
+    /*
     // validate request body
     const { error } = validate.updateOrderPrice(req.body);
     if (error) return res.status(400).send({ status: 400, error: error.details[0].message });
-
+    */
     const { amount } = req.body;
 
     // check if car is available

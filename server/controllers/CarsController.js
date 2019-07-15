@@ -1,5 +1,5 @@
-import validate from '../validators/validate';
-// import Validateparams from '../validators/ValidateParams';
+// import validate from '../validators/validate';
+import Validateparams from '../validators/ValidateParams';
 import Compare from '../util/Compare';
 import dbConnection from '../models/dbConnection';
 
@@ -37,7 +37,6 @@ class CarsController {
   }
 
   static async updateCarAdStatus(req, res) {
-    /*
     // validate request parameter
     try {
       Validateparams.evaluate(req.params.carId);
@@ -47,7 +46,6 @@ class CarsController {
         error: "Invalid request",
       });
     }
-    */
     // check if user is the owner of car ad
     try {
       const { rowCount } = await dbConnection.query(`SELECT owner FROM cars
@@ -57,6 +55,7 @@ class CarsController {
     } catch (error) {
       return res.status(500).send({ status: 500, error: "can't access database server" });
     }
+    /*
     // validate request body
     const { error } = validate.updateCarAdStatus(req.body);
     if (error) {
@@ -65,7 +64,7 @@ class CarsController {
         error: error.details[0].message,
       });
     }
-
+    */
     const { status } = req.body;
 
     const car = await dbConnection.query(
@@ -103,7 +102,6 @@ class CarsController {
   }
 
   static async updateCarAdPrice(req, res) {
-    /*
     // validate request parameter
     try {
       Validateparams.evaluate(req.params.carId);
@@ -113,7 +111,6 @@ class CarsController {
         error: "Invalid request",
       });
     }
-    */
     // check if user is the owner of car ad
     const { _id, _email } = req.user;
     try {
@@ -124,6 +121,7 @@ class CarsController {
     } catch (error) {
       return res.status(500).send({ status: 500, error: "can't access database server" });
     }
+    /*
     // validate request body
     const { error } = validate.updateCarAdPrice(req.body);
     if (error) {
@@ -132,6 +130,7 @@ class CarsController {
         error: error.details[0].message,
       });
     }
+    */
     // update/query database
     const { price } = req.body;
 
