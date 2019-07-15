@@ -51,7 +51,7 @@ class OrdersController {
   }
 
   static async updateOrderPrice(req, res) {
-    console.log("gogolo", req.body, "pepenefe");
+    // console.log("gogolo", req.body, "pepenefe");
     // validate request parameter
     try {
       Validateparams.evaluate(req.params.orderId);

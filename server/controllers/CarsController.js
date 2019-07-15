@@ -102,7 +102,7 @@ class CarsController {
   }
 
   static async updateCarAdPrice(req, res) {
-    console.log("#$#$$", req.body, "########");
+    console.log("patchica", req.body, "pelebe");
     // validate request parameter
     try {
       Validateparams.evaluate(req.params.carId);
@@ -134,6 +134,7 @@ class CarsController {
     */
     // update/query database
     const { price } = req.body;
+    console.log("sofun mi", price);
 
     const car = await dbConnection.query(
       `UPDATE cars
