@@ -203,7 +203,7 @@ class CarsController {
     } = car.rows[0];
     res.send({
       status: 200,
-      data: [{
+      data: {
         id,
         owner,
         created_on: createdOn,
@@ -213,7 +213,7 @@ class CarsController {
         manufacturer,
         model,
         body_type: bodytype,
-      }],
+      },
     });
   }
 
