@@ -1,5 +1,5 @@
 // import validate from '../validators/validate';
-// import Validateparams from '../validators/ValidateParams';
+import Validateparams from '../validators/ValidateParams';
 import dbConnection from '../models/dbConnection';
 
 class OrdersController {
@@ -52,7 +52,6 @@ class OrdersController {
 
   static async updateOrderPrice(req, res) {
     // validate request parameter
-    /*
     try {
       Validateparams.evaluate(req.params.orderId);
     } catch (error) {
@@ -61,7 +60,6 @@ class OrdersController {
         error: "Invalid request",
       });
     }
-    */
     // search database for order to edit
     const orderId = parseInt(req.params.orderId, 10);
     const { rowCount, rows } = await dbConnection.query(

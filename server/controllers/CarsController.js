@@ -149,6 +149,7 @@ class CarsController {
         error: "The car with the given ID was not found.",
       });
     }
+    /*
     // if car is already sold
     if ((rows[0].status === 'sold')) {
       return res.status(403).send({
@@ -156,6 +157,7 @@ class CarsController {
         error: "can't update price, car has been sold",
       });
     }
+    */
     // on success, car hasn't been sold
     const {
       id, createdon, manufacturer, model, state, status,
