@@ -4,8 +4,10 @@ import dbConnection from '../models/dbConnection';
 
 class OrdersController {
   static async createPurchaseOrder(req, res) {
+    /*
     const { error } = validate.createPurchaseOrder(req.body);
     if (error) return res.status(400).send({ status: 400, error: error.details[0].message });
+    */
     const { car_id: carid, amount } = req.body;
     const { rowCount } = await dbConnection.query(
       `SELECT * FROM cars WHERE id = ($1)
