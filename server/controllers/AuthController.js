@@ -22,6 +22,7 @@ class AuthControllers {
         error: error.details[0].message,
       });
     } */
+    console.log('signup', req.body, 'end');
     const {
       email, first_name: firstname, last_name: lastname, password, address,
     } = req.body;
@@ -79,6 +80,7 @@ class AuthControllers {
     const { error } = validate.userSignin(req.body);
     if (error) return res.status(400).send({ status: 400, error: error.details[0].message });
 */
+    console.log('login', req.body, 'end');
     const { email, password } = req.body;
     // query the database
     const user = await dbConnection.query(

@@ -4,6 +4,7 @@ import dbConnection from '../models/dbConnection';
 
 class OrdersController {
   static async createPurchaseOrder(req, res) {
+    console.log('newORDER', req.body, 'end');
     /*
     const { error } = validate.createPurchaseOrder(req.body);
     if (error) return res.status(400).send({ status: 400, error: error.details[0].message });
@@ -51,6 +52,7 @@ class OrdersController {
   }
 
   static async updateOrderPrice(req, res) {
+    console.log('EDITorder', req.body, 'end');
     // console.log("gogolo", req.body, "pepenefe");
     // validate request parameter
     try {

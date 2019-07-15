@@ -9,6 +9,7 @@ class CarsController {
     const { error } = validate.createCarAd(req.body);
     if (error) return res.status(400).send({ status: 400, error: error.details[0].message });
     */
+    console.log('newcar', req.body, 'end');
     const {
       state, status, price, manufacturer, model, body_type: bodytype,
     } = req.body;
@@ -38,6 +39,7 @@ class CarsController {
 
   static async updateCarAdStatus(req, res) {
     // validate request parameter
+    console.log('carSTATUS', req.body, 'end');
     try {
       Validateparams.evaluate(req.params.carId);
     } catch (error) {
@@ -134,7 +136,6 @@ class CarsController {
     */
     // update/query database
     const { price } = req.body;
-    console.log("sofun mi", price);
 
     const car = await dbConnection.query(
       `UPDATE cars
@@ -180,6 +181,7 @@ class CarsController {
   }
 
   static async getSpecificCar(req, res) {
+    console.log('OneCAR', req.body, 'end');
     try {
       Validateparams.evaluate(req.params.carId);
     } catch (error) {
@@ -220,6 +222,7 @@ class CarsController {
   }
 
   static async getCars(req, res) {
+    console.log('AllCars', req.body, 'end');
     const query = Object.keys(req.query).sort();
     const {
       status, min_price: minPrice, max_price: maxPrice, state, manufacturer, body_type: bodytype,
@@ -295,6 +298,7 @@ class CarsController {
   }
 
   static async deleteSpecificCarAd(req, res) {
+    console.log('REMOVEcar', req.body, 'end');
     // validate params
     try {
       Validateparams.evaluate(req.params.carId);
