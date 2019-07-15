@@ -15,13 +15,13 @@ class AuthControllers {
    */
   static async userSignup(req, res) {
     // validate request body using Joi
-    const { error } = validate.userSignup(req.body);
+    /* const { error } = validate.userSignup(req.body);
     if (error) {
       return res.status(400).send({
         status: 400,
         error: error.details[0].message,
       });
-    }
+    } */
     const {
       email, first_name: firstname, last_name: lastname, password, address,
     } = req.body;
