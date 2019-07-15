@@ -5,11 +5,11 @@ import Joi from 'joi';
 class Validate {
   static userSignup(user) {
     const schema = {
-      email: Joi.string().email().required(),
-      first_name: Joi.string().required(),
-      last_name: Joi.string().required(),
-      password: Joi.string().required(),
-      address: Joi.string().required(),
+      email: Joi.string().email(),
+      first_name: Joi.string(),
+      last_name: Joi.string(),
+      password: Joi.string(),
+      address: Joi.string(),
     };
     return Joi.validate(user, schema);
   }
