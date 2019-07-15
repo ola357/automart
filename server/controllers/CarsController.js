@@ -102,7 +102,7 @@ class CarsController {
   }
 
   static async updateCarAdPrice(req, res) {
-    console.log(req.body);
+    // console.log(req.body);
     // validate request parameter
     try {
       Validateparams.evaluate(req.params.carId);
