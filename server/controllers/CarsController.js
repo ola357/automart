@@ -1,14 +1,13 @@
-// import validate from '../validators/validate';
+import validate from '../validators/validate';
 import Validateparams from '../validators/ValidateParams';
 import Compare from '../util/Compare';
 import dbConnection from '../models/dbConnection';
 
 class CarsController {
   static async createCarAd(req, res) {
-    /*
     const { error } = validate.createCarAd(req.body);
     if (error) return res.status(400).send({ status: 400, error: error.details[0].message });
-    */
+
     const {
       state, status, price, manufacturer, model, body_type: bodytype,
     } = req.body;
@@ -55,7 +54,6 @@ class CarsController {
     } catch (error) {
       return res.status(500).send({ status: 500, error: "can't access database server" });
     }
-    /*
     // validate request body
     const { error } = validate.updateCarAdStatus(req.body);
     if (error) {
@@ -64,7 +62,7 @@ class CarsController {
         error: error.details[0].message,
       });
     }
-    */
+
     const { status } = req.body;
 
     const car = await dbConnection.query(
@@ -102,7 +100,6 @@ class CarsController {
   }
 
   static async updateCarAdPrice(req, res) {
-    console.log("patchica", req.body, "pelebe");
     // validate request parameter
     try {
       Validateparams.evaluate(req.params.carId);
@@ -122,7 +119,7 @@ class CarsController {
     } catch (error) {
       return res.status(500).send({ status: 500, error: "can't access database server" });
     }
-    /*
+
     // validate request body
     const { error } = validate.updateCarAdPrice(req.body);
     if (error) {
@@ -131,7 +128,7 @@ class CarsController {
         error: error.details[0].message,
       });
     }
-    */
+
     // update/query database
     const { price } = req.body;
     console.log("sofun mi", price);
@@ -151,7 +148,7 @@ class CarsController {
         error: "The car with the given ID was not found.",
       });
     }
-    /*
+
     // if car is already sold
     if ((rows[0].status === 'sold')) {
       return res.status(403).send({
@@ -159,7 +156,7 @@ class CarsController {
         error: "can't update price, car has been sold",
       });
     }
-    */
+
     // on success, car hasn't been sold
     const {
       id, createdon, manufacturer, model, state, status,
