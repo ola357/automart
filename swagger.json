@@ -28,7 +28,53 @@
     "http"
   ],
   "paths": {
-    "/cars": {
+    "/auth/signup": {
+      "post": {
+        "tags": [
+          "users"
+        ],
+        "summary": "Signs up a new user",
+        "description": "Registers a user and assigns an authentication token",
+        "parameters": [
+          {
+            "in": "body",
+            "name": "auth",
+            "schema": {
+              "$ref": "#/definitions/user"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/auth/signin": {
+      "post": {
+        "tags": [
+          "users"
+        ],
+        "summary": "signs in a registered user",
+        "description": "Endpoint for signing in users",
+        "parameters": [
+          {
+            "in": "body",
+            "name": "auth",
+            "schema": {
+              "$ref": "#/definitions/user"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/car": {
       "post": {
         "tags": [
           "cars"
@@ -50,6 +96,54 @@
           },
           "400": {
             "description": "invalid input"
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "cars"
+        ],
+        "summary": "Gets all car ad sales",
+        "description": "Get all car ads",
+        "responses": {
+          "200": {
+            "description": "succesful"
+          },
+          "400": {
+            "description": "invalid input"
+          }
+        }
+      }
+    },
+    "/car/{car_id}": {
+      "get": {
+        "tags": [
+          "cars"
+        ],
+        "summary": "Find car ad by ID",
+        "description": "Returns a single car ad",
+        "parameters": [
+          {
+            "name": "car_id",
+            "in": "path",
+            "description": "ID of car ad to return",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "success",
+            "schema": {
+              "$ref": "#/definitions/cars"
+            }
+          },
+          "400": {
+            "description": "Invalid Input"
+          },
+          "404": {
+            "description": "Car ad not found"
           }
         }
       }

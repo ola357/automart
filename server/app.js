@@ -41,4 +41,10 @@ const server = http.createServer((req, res) => {
 
 console.log('Server running at http://127.0.0.1:1337/');
 
-export default server; */
+export default server;
+http://editor.swagger.io
+https://apihandyman.io/writing-openapi-swagger-specification-tutorial-part-3-simplifying-specification-file/
+https://blog.cloudboost.io/adding-swagger-to-existing-node-js-project-92a6624b855b
+https://www.pivotaltracker.com/n/projects/2347048
+https://olaoluwa-automart.herokuapp.com/
+*/
