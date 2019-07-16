@@ -86,7 +86,7 @@ class OrdersController {
     const { error } = validate.updateOrderPrice(req.body);
     if (error) return res.status(400).send({ status: 400, error: error.details[0].message });
 
-    const { price: amount } = req.body;
+    const { amount } = req.body;
 
     // check if car is available
     const carStatus = await dbConnection.query(
