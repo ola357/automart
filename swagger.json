@@ -8,7 +8,7 @@
       "email": "alliolaoluwa@gmail.com"
     }
   },
-  "host": "locahost:5500",
+  "host": "olaoluwa-automart.herokuapp.com",
   "basePath": "/api/v1",
   "tags": [
     {
@@ -25,7 +25,7 @@
     }
   ],
   "schemes": [
-    "http"
+    "https"
   ],
   "paths": {
     "/auth/signup": {
@@ -146,6 +146,60 @@
             "description": "Car ad not found"
           }
         }
+      },
+      "delete": {
+        "tags": [
+          "cars"
+        ],
+        "summary": "Delete car ad by ID",
+        "description": "Delete a single car ad",
+        "parameters": [
+          {
+            "name": "car_id",
+            "in": "path",
+            "description": "ID of car ad to return",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Car Ad succesfully deleted"
+          },
+          "400": {
+            "description": "Invalid Input"
+          },
+          "404": {
+            "description": "Car ad not found"
+          }
+        }
+      }
+    },
+    "/order": {
+      "post": {
+        "tags": [
+          "orders"
+        ],
+        "summary": "Creates a new purchase order",
+        "description": "An transaction interest to purchase a car",
+        "parameters": [
+          {
+            "in": "body",
+            "name": "order",
+            "schema": {
+              "$ref": "#/definitions/order"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "car ad succesfully created"
+          },
+          "400": {
+            "description": "invalid input"
+          }
+        }
       }
     }
   },
@@ -176,12 +230,6 @@
           "type": "string",
           "default": false
         }
-      }
-    },
-    "users": {
-      "type": "array",
-      "items": {
-        "$ref": "#/definitions/user"
       }
     },
     "car": {
@@ -224,6 +272,19 @@
       "type": "array",
       "items": {
         "$ref": "#/definitions/car"
+      }
+    },
+    "order": {
+      "type": "object",
+      "properties": {
+        "car_id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "amount": {
+          "type": "number",
+          "format": "float"
+        }
       }
     }
   }

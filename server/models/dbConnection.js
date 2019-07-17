@@ -6,8 +6,8 @@ const heroku = {
   connectionString: process.env.DATABASE_URL,
   ssl: true,
 };
-
-/* let connectionString;
+/*
+let connectionString;
 if (process.env.NODE_ENV === 'test') {
   connectionString = {
     user: "postgres",
@@ -24,8 +24,8 @@ if (process.env.NODE_ENV === 'test') {
     password: process.env.DbPassword,
     port: 5432,
   };
-} */
-
+}
+*/
 const dbConnection = new Pool(heroku);
 // const dbConnection = new Pool(connectionString);
 
