@@ -8,7 +8,7 @@
       "email": "alliolaoluwa@gmail.com"
     }
   },
-  "host": "locahost:5500",
+  "host": "olaoluwa-automart.herokuapp.com",
   "basePath": "/api/v1",
   "tags": [
     {
@@ -25,10 +25,56 @@
     }
   ],
   "schemes": [
-    "http"
+    "https"
   ],
   "paths": {
-    "/cars": {
+    "/auth/signup": {
+      "post": {
+        "tags": [
+          "users"
+        ],
+        "summary": "Signs up a new user",
+        "description": "Registers a user and assigns an authentication token",
+        "parameters": [
+          {
+            "in": "body",
+            "name": "auth",
+            "schema": {
+              "$ref": "#/definitions/user"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/auth/signin": {
+      "post": {
+        "tags": [
+          "users"
+        ],
+        "summary": "signs in a registered user",
+        "description": "Endpoint for signing in users",
+        "parameters": [
+          {
+            "in": "body",
+            "name": "auth",
+            "schema": {
+              "$ref": "#/definitions/user"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/car": {
       "post": {
         "tags": [
           "cars"
@@ -41,6 +87,210 @@
             "name": "car",
             "schema": {
               "$ref": "#/definitions/car"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "car ad succesfully created"
+          },
+          "400": {
+            "description": "invalid input"
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "cars"
+        ],
+        "summary": "Gets all car ad sales",
+        "description": "Get all car ads",
+        "responses": {
+          "200": {
+            "description": "succesful"
+          },
+          "400": {
+            "description": "invalid input"
+          }
+        }
+      }
+    },
+    "/car/{car_id}": {
+      "get": {
+        "tags": [
+          "cars"
+        ],
+        "summary": "Find car ad by ID",
+        "description": "Returns a single car ad",
+        "parameters": [
+          {
+            "name": "car_id",
+            "in": "path",
+            "description": "ID of car ad to return",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "success",
+            "schema": {
+              "$ref": "#/definitions/cars"
+            }
+          },
+          "400": {
+            "description": "Invalid Input"
+          },
+          "404": {
+            "description": "Car ad not found"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "cars"
+        ],
+        "summary": "Delete car ad by ID",
+        "description": "Delete a single car ad",
+        "parameters": [
+          {
+            "name": "car_id",
+            "in": "path",
+            "description": "ID of car ad to return",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Car Ad succesfully deleted"
+          },
+          "400": {
+            "description": "Invalid Input"
+          },
+          "404": {
+            "description": "Car ad not found"
+          }
+        }
+      }
+    },
+    "/car/{car_id}/status": {
+      "patch": {
+        "tags": [
+          "cars"
+        ],
+        "summary": "User can edit a car ads price",
+        "description": "User who is a seller can edit its price",
+        "parameters": [
+          {
+            "name": "car_id",
+            "in": "path",
+            "description": "ID of car ad to e edited",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          },
+          {
+            "name": "car ad",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/car"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "car ad succesfully created"
+          },
+          "400": {
+            "description": "invalid input"
+          }
+        }
+      }
+    },
+    "/car/{car_id}/price": {
+      "patch": {
+        "tags": [
+          "cars"
+        ],
+        "summary": "User can edit a car ads price",
+        "description": "User who is a seller can edit its price",
+        "parameters": [
+          {
+            "name": "car_id",
+            "in": "path",
+            "description": "ID of car ad to e edited",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          },
+          {
+            "name": "car ad",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/car"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "car ad succesfully created"
+          },
+          "400": {
+            "description": "invalid input"
+          }
+        }
+      }
+    },
+    "/order": {
+      "post": {
+        "tags": [
+          "orders"
+        ],
+        "summary": "Creates a new purchase order",
+        "description": "An transaction interest to purchase a car",
+        "parameters": [
+          {
+            "in": "body",
+            "name": "order",
+            "schema": {
+              "$ref": "#/definitions/order"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "car ad succesfully edited"
+          },
+          "400": {
+            "description": "invalid input"
+          }
+        }
+      }
+    },
+    "/order/{order_id}/status": {
+      "patch": {
+        "tags": [
+          "orders"
+        ],
+        "summary": "User can edit a car ads price",
+        "description": "User who is a buyer can edit its price",
+        "parameters": [
+          {
+            "name": "order_id",
+            "in": "path",
+            "description": "ID of purchase order to be edited",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          },
+          {
+            "name": "car ad",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/order"
             }
           }
         ],
@@ -84,12 +334,6 @@
         }
       }
     },
-    "users": {
-      "type": "array",
-      "items": {
-        "$ref": "#/definitions/user"
-      }
-    },
     "car": {
       "type": "object",
       "properties": {
@@ -130,6 +374,19 @@
       "type": "array",
       "items": {
         "$ref": "#/definitions/car"
+      }
+    },
+    "order": {
+      "type": "object",
+      "properties": {
+        "car_id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "amount": {
+          "type": "number",
+          "format": "float"
+        }
       }
     }
   }
