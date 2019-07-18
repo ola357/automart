@@ -1,15 +1,14 @@
-// import validate from '../validators/validate';
+import validate from '../validators/validate';
 import Validateparams from '../validators/ValidateParams';
 import dbConnection from '../models/dbConnection';
 
 class OrdersController {
   static async createPurchaseOrder(req, res) {
-    /*
     const { error } = validate.createPurchaseOrder(req.body);
     if (error) return res.status(400).send({ status: 400, error: error.details[0].message });
-    */
+
     const { car_id: carid, amount } = req.body;
-    /*
+
     const { rowCount } = await dbConnection.query(
       `SELECT * FROM cars WHERE id = ($1)
       AND owner = ( $2)`,
@@ -22,7 +21,7 @@ class OrdersController {
         error: "You can't buy your own car!",
       });
     }
-    */
+
     const order = await dbConnection.query(
       `INSERT INTO orders(
         buyer, carid, amount) 
@@ -51,7 +50,6 @@ class OrdersController {
   }
 
   static async updateOrderPrice(req, res) {
-    // console.log("gogolo", req.body, "pepenefe");
     // validate request parameter
     try {
       Validateparams.evaluate(req.params.orderId);
@@ -68,7 +66,7 @@ class OrdersController {
       WHERE id = ($1)`,
       [orderId],
     );
-    // console.log(rows);
+
     // if order doesn't exist
     if ((rowCount === 0)) {
       return res.status(404).send({
@@ -83,12 +81,12 @@ class OrdersController {
         error: "You didn't make this order.",
       });
     }
-    /*
+
     // validate request body
     const { error } = validate.updateOrderPrice(req.body);
     if (error) return res.status(400).send({ status: 400, error: error.details[0].message });
-    */
-    const { price: amount } = req.body;
+
+    const { amount } = req.body;
 
     // check if car is available
     const carStatus = await dbConnection.query(
