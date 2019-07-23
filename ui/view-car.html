@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link rel="stylesheet" href="css/view-car.css">
+  <title>Auto Mart</title>
+</head>
+
+<body>
+  <section>
+    <!--  nav-->
+    <nav>
+      <div id="nav-top">
+        <h3>Auto Mart</h3>
+      </div>
+      <!--  nav links-->
+      <ul id="links">
+        <li><a href="#">Inventory</a></li>
+      </ul>
+    </nav>
+    <!--  endnav-->
+
+    <!-- Container for the image gallery -->
+    <div class="container">
+
+      <!-- Full-width images with number text -->
+      <div class="mySlides">
+        <div class="numbertext">1 / 6</div>
+        <div class="boxy">
+          <img src="images/cars/camry/CAH_MY18_0023_V001.jpg" style="width:100%">
+        </div>
+      </div>
+
+      <div class="mySlides">
+        <div class="numbertext">2 / 6</div>
+        <div class="boxy">
+          <img src="images/cars/camry/CAM_MY19_0017_V001.jpg" style="width:100%">
+        </div>
+
+      </div>
+
+      <div class="mySlides">
+        <div class="numbertext">3 / 6</div>
+        <div class="boxy">
+          <img src="images/cars/camry/CAM_MY19_0016_V001.jpg" style="width:100%">
+        </div>
+
+      </div>
+
+      <div class="mySlides">
+        <div class="numbertext">4 / 6</div>
+        <div class="boxy">
+          <img src="images/cars/camry/CAM_MY19_0015_V001.jpg" style="width:100%">
+        </div>
+      </div>
+
+      <div class="mySlides">
+        <div class="numbertext">5 / 6</div>
+        <div class="boxy">
+          <img src="images/cars/camry/CAM_MY18_0048_V002.jpg" style="width:100%">
+        </div>
+
+      </div>
+
+      <div class="mySlides">
+        <div class="numbertext">6 / 6</div>
+        <div class="boxy">
+          <img src="images/cars/camry/CAM_MY18_0024_V003.jpg" style="width:100%">
+        </div>
+      </div>
+
+      <!-- Next and previous buttons -->
+      <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
+      <a class="next" onclick="plusSlides(1)">&#10095;</a>
+
+      <!-- Image text -->
+      <div class="caption-container">
+        <p id="caption"></p>
+      </div>
+
+      <!-- Thumbnail images -->
+      <div class="row">
+        <div class="column">
+          <img class="demo cursor" src="images/cars/camry/CAH_MY18_0023_V001.jpg" style="width:100%"
+            onclick="currentSlide(1)" alt="Body">
+        </div>
+        <div class="column">
+          <img class="demo cursor" src="images/cars/camry/CAM_MY19_0017_V001.jpg" style="width:100%"
+            onclick="currentSlide(2)" alt="Body">
+        </div>
+        <div class="column">
+          <img class="demo cursor" src="images/cars/camry/CAM_MY19_0016_V001.jpg" style="width:100%"
+            onclick="currentSlide(3)" alt="Engine">
+        </div>
+        <div class="column">
+          <img class="demo cursor" src="images/cars/camry/CAM_MY19_0015_V001.jpg" style="width:100%"
+            onclick="currentSlide(4)" alt="Engine">
+        </div>
+        <div class="column">
+          <img class="demo cursor" src="images/cars/camry/CAM_MY18_0048_V002.jpg" style="width:100%"
+            onclick="currentSlide(5)" alt="Interior">
+        </div>
+        <div class="column">
+          <img class="demo cursor" src="images/cars/camry/CAM_MY18_0024_V003.jpg" style="width:100%"
+            onclick="currentSlide(6)" alt="Dashboard">
+        </div>
+      </div>
+    </div>
+  </section>
+  <article>
+      <div class="summary">
+          <div class="titleOne">
+              <p><span>2019 </span><span>Toyota Camry</span></p>
+              <p>SE Sedan</p>
+              <p>New</p>
+          </div>
+          <div class="titleTwo">
+              <div class="titlePrice">
+                  <p>AutoMart Price</p>
+                  <p>8000000</p>
+              </div>
+              <div class="buy-car">
+                  <a href="">Buy car</a>
+              </div>
+          </div>
+      </div>
+    </article>
+  <main>
+      <p>Car Details</p>
+      <div class="table">
+          <div class="cup">
+              <p>BASICS </p>
+              <span class="cap">Body Type: </span> <span class="word">Sedan </span>
+              <span class="cap">Interior: </span> <span class="word">Sedan </span>
+              <span class="cap">Exterior: </span> <span class="word">Sedan </span>
+              <span class="cap">Stock Number: </span> <span class="word">Sedan </span>
+              <span class="cap">Body Type: </span> <span class="word">Sedan </span>
+              <span class="cap">VIN: </span> <span class="word">Sedan </span>
+          </div>
+          <div class="cup">
+              <p>PERFORMANCE </p>
+              <span class="cap">Engine: </span> <span class="word">Sedan </span>
+              <span class="cap">Transmission: </span> <span class="word">Sedan </span>
+              <span class="cap">Drive Type: </span> <span class="word">Sedan </span>
+              <span class="cap">Fuel Type: </span> <span class="word">Sedan </span>
+          </div>
+      </div>
+      
+
+  </main>
+  <footer>
+    <p>Andela Developer Challenge</p>
+    
+    <p> Flag this Ad</p>
+  </footer>
+  <script src="js/view-car.js"></script>
+</body>
+
+</html>

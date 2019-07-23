@@ -2,10 +2,14 @@
     padding: 0;
     margin: 0;
     box-sizing: border-box;
+    text-decoration: none;
   }
   body {
     font-family: 'Roboto', sans-serif;
     background: #f5f5f5;
+  }
+  .frame {
+      height: 100vh;
   }
   .logo-bucket {
       display: flex;
@@ -30,9 +34,11 @@
       background: #fff;
       padding: 20px 32px 20px 20px;
       width: 80%;
+      box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.2);
   }
   .title {
       text-align: center;
+      color: #2b98f0;
   }
   #firstname,
   #lastname,
@@ -43,7 +49,7 @@
       padding: 1em 1px;
       margin: 0.5em 0;
       border: none;
-      border-bottom: 1px solid;
+      border-bottom: 1px solid #074a81;
   }
   #password {
       margin-bottom: 32px;
@@ -61,12 +67,14 @@
       text-align: center;
       text-decoration: none;
       margin-bottom: 16px;
+      color: #074a81;
   }
   .signup-link {
     text-align: center;
     text-decoration: none;
     margin-top: 16px;
     margin-bottom: 32px;
+    color: #074a81;
   }
   .signup > div {
       text-align: center
@@ -77,10 +85,6 @@
     background-color: #074a81;
      justify-content: center;
     padding: 20px;
-    z-index: 500;
-    position: absolute;
-    bottom: 0;
-    overflow: hidden;
     width: 100%; 
   } 
     footer h3 {
@@ -103,8 +107,8 @@ footer {
 }
 @media screen and (min-width:992px) {
     .signup {
-        width: 50%;
-        max-width: 50%;
+        width: 40%;
+        max-width: 40%;
         }
         footer {
             position: static;

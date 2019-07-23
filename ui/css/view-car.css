@@ -1,0 +1,309 @@
+* {
+    box-sizing: border-box;
+    margin:0; 
+    padding: 0;
+    text-decoration: none;
+  }
+  /* nav styling */
+  
+  nav {
+    flex: 0 0 auto;
+}
+
+#banner {
+  flex: 1 0 auto;
+}
+
+nav ul {
+  list-style-type: none;
+}
+
+nav ul li a {
+  display: block;
+  color: #2b98f0;
+  background: transparent;
+  text-decoration: none;
+  padding: 10px;
+  font-size: 20px;
+  transition: color 1s ease, background 1s ease, padding 1s ease;
+}
+
+nav ul li a:hover {
+  color: #f5f5f5;
+  padding-left: 60px;
+  background: #2b98f0;
+}
+
+#nav-top {
+  display: flex;
+  justify-content: space-between;
+  padding: 20px 20px 20px 10px;
+}
+
+#nav-top h3 {
+  font-size: 30px;
+  padding: 5px;
+  color: #2b98f0;
+  border: 3px solid;
+  transition: color 2s ease, background 2s ease;
+}
+
+#nav-top h3:hover {
+  background: #2b98f0;
+  color: #f5f5f5;
+}
+
+#menu-btn {
+  padding: 5px;
+  border: 2px solid #2b98f0;
+  cursor: pointer;
+  align-self: center;
+}
+
+
+@media screen and (min-width:690px) {
+  nav {
+    display: flex;
+    align-items: baseline;
+    flex-wrap: wrap;
+    padding: 0 20px;
+  }
+  #menu-btn {
+    display: none;
+  }
+  nav ul {
+    flex: 1 1 auto;
+    display: flex!important;
+    /*    important*/
+    flex-wrap: wrap;
+    margin-left: 100px;
+  }
+  nav ul li {
+    flex: 0 0 125px;
+  }
+  nav ul .icon {
+    flex: 0 0 20px;
+  }
+  nav ul li .link-icon {
+    color: #f5f5f5;
+    background: #395e7e;
+
+  }
+  nav ul li .link-icon:hover {
+    background: #008dff
+  }
+  nav ul a {
+    text-align: center;
+
+  }
+  nav ul a:hover {
+    padding: 10px!important;
+  }
+  #nav-top {
+    padding: 10px;
+  }
+}
+@media screen and (min-width:840px) {
+nav{
+    margin-left: 130px;
+}
+nav ul {
+  margin-left: 500px;
+}
+}
+  
+  /* Position the image container (needed to position the left and right arrows) */
+  .container {
+    position: relative;
+    /* height: 80vh; */
+    
+  }
+  
+  /* Hide the images by default */
+  .mySlides {
+    display: none;
+    /* height: 80vh; */
+  }
+  .boxy{
+    display: flex;
+    
+    width: 100%;
+    height: 56vw;
+    
+    background: blue;
+    overflow: hidden;
+  }
+  .boxy > img {
+    display: block;
+    width: 100%;
+    height: 56vw;
+  }
+ /*  .boxy > img {
+      display: block;
+width: 70vw;
+height: 80vh;
+  } */
+  /* Add a pointer when hovering over the thumbnail images */
+  .cursor {
+    cursor: pointer;
+  }
+  
+  /* Next & previous buttons */
+  .prev,
+  .next {
+    cursor: pointer;
+    position: absolute;
+    top: 40%;
+    width: auto;
+    padding: 16px;
+    margin-top: -50px;
+    color: white;
+    font-weight: bold;
+    font-size: 20px;
+    border-radius: 0 3px 3px 0;
+    user-select: none;
+    -webkit-user-select: none;
+  }
+  
+  /* Position the "next button" to the right */
+  .next {
+    right: 0;
+    border-radius: 3px 0 0 3px;
+  }
+  
+  /* On hover, add a black background color with a little bit see-through */
+  .prev:hover,
+  .next:hover {
+    background-color: rgba(0, 0, 0, 0.8);
+  }
+  
+  /* Number text (1/3 etc) */
+  .numbertext {
+    color: #f2f2f2;
+    font-size: 12px;
+    padding: 8px 12px;
+    position: absolute;
+    top: 0;
+  }
+  
+  /* Container for image text */
+  .caption-container {
+    text-align: center;
+    background-color: #222;
+    padding: 2px 16px;
+    color: white;
+  }
+  
+  .row:after {
+    content: "";
+    display: table;
+    clear: both;
+  }
+  
+  /* Six columns side by side */
+  .column {
+    float: left;
+    width: 16.66%;
+    overflow: hidden;
+    
+  }
+  
+  /* Add a transparency effect for thumnbail images */
+  .demo {
+    opacity: 0.6;
+    width: 100%;
+    
+  }
+  
+  .active,
+  .demo:hover {
+    opacity: 1;
+  }
+article {
+  box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.2);
+  padding: 16px;
+  display: flex;
+  
+}
+.summary {
+  display: flex;
+  padding-right: 30px;
+}
+.titleOne{
+  margin-right: 24px;
+  margin-left: 30px;
+}
+.titleOne p {
+  color: #2b98f0;
+  font-size: 24px;
+  padding-left: 24px;
+  padding-bottom: 8px;
+}
+.titlePrice p {
+  color: #6a6c6d;
+  font-size: 20px;
+  padding-left: 8px;
+  padding-bottom: 8px;
+}
+
+.buy-car a {
+  display: block;
+  font-size: 30px;
+  padding: 8px;
+  color: #2b98f0;
+  border: 3px solid;
+  border-radius: 4px;
+  text-align: center;
+  margin-top: 12px;
+  text-decoration: none;
+  font-size: 18px;
+  transition: color 2s ease, background 2s ease;
+}
+
+.buy-car a:hover {
+  background: #2b98f0;
+color: #f5f5f5;
+cursor: pointer;
+}
+main {
+  background-color: #e8f3fd;
+}
+main > p {
+  text-align: center;
+}
+main p {
+  color: #074a81;
+  font-size: 20px;
+  text-transform: uppercase;
+  margin: 6px;
+}
+.table{
+  display: flex;
+  justify-content: space-around;
+}
+.cup {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  
+}
+.cap {
+  color: rgb(54, 54, 54);
+  padding: 4px;
+}
+.word {
+  color: #6a6c6d;
+  padding: 4px;
+}
+  footer {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+    height: 10vh;
+    padding: 8px;
+    background-color: #074a81;
+    text-align: center;
+    color: #fff;
+    font-size: 16px;
+  }
